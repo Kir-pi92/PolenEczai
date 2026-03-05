@@ -644,11 +644,19 @@
 
     /* ── YAZDIRMA UYUMU (Print) ── */
     @media print {
+      @page {
+        size: A4 landscape;
+        margin: 5mm;
+      }
+
       body {
         background: #fff !important;
         color: #000 !important;
         overflow: visible !important;
         height: auto !important;
+        margin: 0;
+        padding: 0;
+        font-size: 10px !important;
       }
 
       body::before,
@@ -658,32 +666,53 @@
 
       .page-wrap {
         height: auto !important;
+        padding: 0 !important;
       }
 
       header {
         background: none;
         border: none;
         box-shadow: none;
-        padding: 0 0 20px 0;
+        padding: 0 0 10px 0 !important;
         height: auto;
+        justify-content: center;
+      }
+
+      .hbrand {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        gap: 10px;
       }
 
       .hright {
         display: none !important;
       }
 
+      .hicon {
+        width: 30px !important;
+        height: 30px !important;
+      }
+
+      .hicon svg {
+        width: 100% !important;
+        height: 100% !important;
+      }
+
       .hpolen {
         color: #000 !important;
         text-shadow: none !important;
+        font-size: 16px !important;
       }
 
-      .cname {
-        color: #000 !important;
-        text-shadow: none !important;
+      .hpolen-addr {
+        font-size: 10px !important;
       }
 
-      .caddr {
-        color: #333 !important;
+      .htitle {
+        font-size: 11px !important;
+        margin-top: 2px !important;
       }
 
       .scroll-area {
@@ -693,8 +722,8 @@
 
       .grid {
         display: grid !important;
-        grid-template-columns: repeat(2, 1fr) !important;
-        gap: 10px !important;
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 6px !important;
       }
 
       .card {
@@ -704,15 +733,50 @@
         background: #fff !important;
         box-shadow: none !important;
         margin-bottom: 0 !important;
-        padding: 8px 12px !important;
-        gap: 10px !important;
-        font-size: 85% !important;
-        /* Scale down to fit well on A4 */
+        padding: 6px 8px !important;
+        gap: 6px !important;
+        font-size: 90% !important;
       }
 
       .card::before,
       .card::after {
         display: none !important;
+      }
+
+      .ci {
+        gap: 4px !important;
+      }
+
+      .cname {
+        color: #000 !important;
+        text-shadow: none !important;
+        font-size: 14px !important;
+        line-height: 1 !important;
+        margin: 0;
+      }
+
+      .caddr {
+        color: #333 !important;
+        font-size: 10px !important;
+        line-height: 1.2 !important;
+        gap: 4px !important;
+      }
+
+      .caddr-ic {
+        font-size: 10px !important;
+        margin-top: 0 !important;
+        filter: none !important;
+      }
+
+      .chips {
+        gap: 4px !important;
+        margin-top: 2px !important;
+      }
+
+      .chip {
+        padding: 2px 6px !important;
+        font-size: 9px !important;
+        border-radius: 4px !important;
       }
 
       .chip-t {
@@ -725,21 +789,26 @@
         background: #fff0f0 !important;
         color: #c00 !important;
         border: 1px solid #c00 !important;
-      }
-
-      .qrbox {
-        width: 80px !important;
-        height: 80px !important;
-        padding: 4px !important;
-      }
-
-      .qrlbl {
-        font-size: 9px !important;
+        box-shadow: none !important;
       }
 
       .cqr {
         display: flex !important;
+        gap: 2px !important;
         margin-left: auto;
+      }
+
+      .qrbox {
+        width: 55px !important;
+        height: 55px !important;
+        padding: 2px !important;
+        box-shadow: none !important;
+        border: 1px solid #ddd !important;
+      }
+
+      .qrlbl {
+        font-size: 8px !important;
+        margin-bottom: 0 !important;
       }
 
       footer {
@@ -772,6 +841,9 @@
       <div class="hright">
         <div class="live"><span class="ldot"></span>CANLI</div>
         <div class="spill" id="spill"><em>—</em> eczane</div>
+        <div class="spill" id="last-updated"
+          style="font-size: 11px; padding: 4px 10px; color: #aaa; border-color: rgba(255,255,255,0.1); display: none;">
+          Son Güncelleme: <em>--:--</em></div>
         <button id="ybtn" onclick="veriGetir(true)" title="Yenile">⟳</button>
         <button id="pbtn" onclick="window.print()" title="Yazdır">🖨️</button>
         <div id="weather" title="Eskişehir Odunpazarı Hava Durumu">
@@ -1001,6 +1073,12 @@
         });
 
         goster(filtrelenmisData);
+        const lu = new Date();
+        const luStr = lu.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
+        const luEl = document.getElementById('last-updated');
+        luEl.innerHTML = 'Son Güncelleme: <em>' + luStr + '</em>';
+        luEl.style.display = 'flex';
+
         st.className = '';
       } catch (e) {
         document.getElementById('si').textContent = '❌';
@@ -1064,9 +1142,9 @@
       });
     }
 
-    // ── BAŞLAT — Günde 2 kez otomatik yenile (12 saatte bir) ──────────────────
+    // ── BAŞLAT — Her 30 dakikada bir otomatik yenile ──────────────────
     veriGetir();
-    setInterval(() => veriGetir(true), 12 * 60 * 60 * 1000); // 12 saat = günde 2 kez
+    setInterval(() => veriGetir(true), 30 * 60 * 1000); // 30 dakika
   </script>
 </body>
 
