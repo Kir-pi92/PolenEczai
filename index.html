@@ -858,7 +858,364 @@
       svg path {
         fill: #c0392b !important;
       }
-    }
+
+      /* ── AYARLAR PANELİ ── */
+      .settings-btn {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, .08);
+        border: 1px solid rgba(255, 255, 255, .15);
+        color: #888;
+        font-size: 22px;
+        cursor: pointer;
+        z-index: 200;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all .3s;
+        backdrop-filter: blur(10px)
+      }
+
+      .settings-btn:hover {
+        background: rgba(255, 255, 255, .15);
+        color: #fff;
+        transform: rotate(90deg)
+      }
+
+      .settings-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, .7);
+        z-index: 300;
+        backdrop-filter: blur(5px)
+      }
+
+      .settings-overlay.open {
+        display: flex;
+        align-items: center;
+        justify-content: center
+      }
+
+      .settings-panel {
+        background: #1a1d2e;
+        border: 1px solid rgba(255, 255, 255, .1);
+        border-radius: 16px;
+        padding: 28px 32px;
+        width: min(520px, 90vw);
+        max-height: 85vh;
+        overflow-y: auto;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, .6)
+      }
+
+      .settings-panel::-webkit-scrollbar {
+        width: 4px
+      }
+
+      .settings-panel::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, .15);
+        border-radius: 4px
+      }
+
+      .sp-title {
+        font-size: 20px;
+        font-weight: 800;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: #fff
+      }
+
+      .sp-title span {
+        color: var(--red-br)
+      }
+
+      .sp-group {
+        margin-bottom: 18px;
+        padding: 14px;
+        background: rgba(255, 255, 255, .03);
+        border: 1px solid rgba(255, 255, 255, .08);
+        border-radius: 10px
+      }
+
+      .sp-group-title {
+        font-size: 12px;
+        font-weight: 700;
+        color: #888;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        margin-bottom: 12px
+      }
+
+      .sp-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 8px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, .05)
+      }
+
+      .sp-row:last-child {
+        border: none
+      }
+
+      .sp-label {
+        font-size: 14px;
+        color: #ccc;
+        font-weight: 500
+      }
+
+      .sp-label small {
+        display: block;
+        font-size: 11px;
+        color: #666;
+        margin-top: 2px;
+        font-weight: 400
+      }
+
+      .toggle {
+        position: relative;
+        width: 44px;
+        height: 24px;
+        flex-shrink: 0
+      }
+
+      .toggle input {
+        opacity: 0;
+        width: 0;
+        height: 0
+      }
+
+      .toggle .slider {
+        position: absolute;
+        inset: 0;
+        background: #333;
+        border-radius: 24px;
+        cursor: pointer;
+        transition: .3s
+      }
+
+      .toggle .slider::before {
+        content: '';
+        position: absolute;
+        width: 18px;
+        height: 18px;
+        left: 3px;
+        bottom: 3px;
+        background: #888;
+        border-radius: 50%;
+        transition: .3s
+      }
+
+      .toggle input:checked+.slider {
+        background: var(--red)
+      }
+
+      .toggle input:checked+.slider::before {
+        transform: translateX(20px);
+        background: #fff
+      }
+
+      .sp-input {
+        background: #0f111a;
+        border: 1px solid rgba(255, 255, 255, .1);
+        color: #fff;
+        padding: 8px 12px;
+        border-radius: 8px;
+        font-size: 13px;
+        font-family: inherit;
+        width: 180px
+      }
+
+      .sp-select {
+        background: #0f111a;
+        border: 1px solid rgba(255, 255, 255, .1);
+        color: #fff;
+        padding: 8px 12px;
+        border-radius: 8px;
+        font-size: 13px;
+        font-family: inherit;
+        width: 180px;
+        cursor: pointer
+      }
+
+      .sp-close {
+        background: linear-gradient(135deg, #c0392b, #900);
+        color: #fff;
+        border: none;
+        border-radius: 10px;
+        padding: 10px 24px;
+        font-size: 14px;
+        font-weight: 700;
+        cursor: pointer;
+        width: 100%;
+        margin-top: 8px;
+        font-family: inherit;
+        transition: all .3s
+      }
+
+      .sp-close:hover {
+        filter: brightness(1.2)
+      }
+
+      /* ── TICKER ── */
+      .ticker-wrap {
+        flex-shrink: 0;
+        background: rgba(192, 57, 43, .12);
+        border-top: 1px solid rgba(192, 57, 43, .3);
+        overflow: hidden;
+        height: 0;
+        transition: height .3s
+      }
+
+      .ticker-wrap.on {
+        height: 36px
+      }
+
+      .ticker-inner {
+        display: flex;
+        align-items: center;
+        height: 36px;
+        white-space: nowrap;
+        animation: tickerScroll 30s linear infinite
+      }
+
+      .ticker-inner span {
+        font-size: 14px;
+        color: #ff6b6b;
+        font-weight: 600;
+        padding-right: 80px;
+        letter-spacing: .5px
+      }
+
+      @keyframes tickerScroll {
+        0% {
+          transform: translateX(100%)
+        }
+
+        100% {
+          transform: translateX(-100%)
+        }
+      }
+
+      /* ── GERİ SAYIM ── */
+      .countdown-bar {
+        flex-shrink: 0;
+        background: rgba(15, 17, 26, .8);
+        border-top: 1px solid rgba(255, 255, 255, .08);
+        padding: 6px 20px;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+        font-size: 14px;
+        color: #aaa
+      }
+
+      .countdown-bar.on {
+        display: flex
+      }
+
+      .countdown-bar .cd-label {
+        font-weight: 600;
+        color: #888;
+        text-transform: uppercase;
+        font-size: 11px;
+        letter-spacing: 1px
+      }
+
+      .countdown-bar .cd-time {
+        font-size: 22px;
+        font-weight: 800;
+        color: var(--red-br);
+        font-variant-numeric: tabular-nums;
+        letter-spacing: 1px
+      }
+
+      /* ── ECZANE BİLGİ ── */
+      .pharma-info {
+        flex-shrink: 0;
+        background: linear-gradient(135deg, rgba(192, 57, 43, .1), rgba(192, 57, 43, .05));
+        border-top: 1px solid rgba(192, 57, 43, .2);
+        padding: 8px 20px;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        gap: 24px;
+        font-size: 13px;
+        color: #bbb;
+        flex-wrap: wrap
+      }
+
+      .pharma-info.on {
+        display: flex
+      }
+
+      .pharma-info .pi-item {
+        display: flex;
+        align-items: center;
+        gap: 6px
+      }
+
+      .pharma-info .pi-icon {
+        color: var(--red-br);
+        font-size: 14px
+      }
+
+      .pharma-info .pi-name {
+        font-weight: 800;
+        color: #fff;
+        font-size: 15px
+      }
+
+      /* ── KIOSK MODE ── */
+      body.kiosk {
+        cursor: none
+      }
+
+      body.kiosk .settings-btn {
+        opacity: 0;
+        transition: opacity .3s
+      }
+
+      body.kiosk .settings-btn:hover {
+        opacity: 1
+      }
+
+      body.kiosk #ybtn,
+      body.kiosk #pbtn {
+        display: none
+      }
+
+      /* ── FONT SIZE ── */
+      body.font-large .cname {
+        font-size: clamp(22px, 2.4vw, 32px) !important
+      }
+
+      body.font-large .caddr {
+        font-size: clamp(14px, 1.5vw, 18px) !important
+      }
+
+      body.font-large .chip {
+        font-size: clamp(13px, 1.3vw, 16px) !important
+      }
+
+      body.font-xlarge .cname {
+        font-size: clamp(26px, 3vw, 38px) !important
+      }
+
+      body.font-xlarge .caddr {
+        font-size: clamp(16px, 1.8vw, 22px) !important
+      }
+
+      body.font-xlarge .chip {
+        font-size: clamp(15px, 1.5vw, 18px) !important
+      }
   </style>
 </head>
 
@@ -910,7 +1267,114 @@
         <em>--:--</em></span>
     </footer>
 
+    <!-- Geri Sayım -->
+    <div class="countdown-bar" id="countdownBar">
+      <span class="cd-label">Nöbet Bitişine Kalan:</span>
+      <span class="cd-time" id="cdTime">--:--:--</span>
+    </div>
+
+    <!-- Eczane Bilgi Bandı -->
+    <div class="pharma-info" id="pharmaInfo">
+      <div class="pi-item"><span class="pi-icon">🏥</span><span class="pi-name" id="piName">Polen Eczanesi</span></div>
+      <div class="pi-item"><span class="pi-icon">📞</span><span id="piPhone">0222 XXX XX XX</span></div>
+      <div class="pi-item"><span class="pi-icon">📍</span><span id="piAddr">Eskişehir Merkez</span></div>
+      <div class="pi-item"><span class="pi-icon">🕐</span><span id="piHours">08:30 - 19:00</span></div>
+    </div>
+
+    <!-- Ticker -->
+    <div class="ticker-wrap" id="tickerWrap">
+      <div class="ticker-inner" id="tickerInner">
+        <span>🏥 Polen Eczanesi — Sağlığınız İçin Her Zaman Yanınızda! &nbsp;&nbsp;&nbsp; 📞 Bilgi için arayın
+          &nbsp;&nbsp;&nbsp; 💊 Nöbetçi eczane bilgileri Eskişehir Eczacı Odası'ndan alınmaktadır.</span>
+        <span>🏥 Polen Eczanesi — Sağlığınız İçin Her Zaman Yanınızda! &nbsp;&nbsp;&nbsp; 📞 Bilgi için arayın
+          &nbsp;&nbsp;&nbsp; 💊 Nöbetçi eczane bilgileri Eskişehir Eczacı Odası'ndan alınmaktadır.</span>
+      </div>
+    </div>
+
   </div><!-- /page-wrap -->
+
+  <!-- Ayarlar Butonu -->
+  <button class="settings-btn" id="settingsBtn" title="Ayarlar">⚙️</button>
+
+  <!-- Ayarlar Paneli -->
+  <div class="settings-overlay" id="settingsOverlay">
+    <div class="settings-panel">
+      <div class="sp-title">⚙️ <span>Kiosk</span> Ayarları</div>
+
+      <div class="sp-group">
+        <div class="sp-group-title">🖥️ Ekran Modu</div>
+        <div class="sp-row">
+          <div class="sp-label">Kiosk Modu<small>İmleç ve butonları gizler</small></div><label class="toggle"><input
+              type="checkbox" id="sKiosk"><span class="slider"></span></label>
+        </div>
+        <div class="sp-row">
+          <div class="sp-label">Yazı Boyutu</div><select class="sp-select" id="sFontSize">
+            <option value="normal">Normal</option>
+            <option value="large">Büyük</option>
+            <option value="xlarge">Çok Büyük</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="sp-group">
+        <div class="sp-group-title">🔄 Otomatik Kaydırma</div>
+        <div class="sp-row">
+          <div class="sp-label">Otomatik Kaydırma<small>Kartları otomatik kaydırır</small></div><label
+            class="toggle"><input type="checkbox" id="sScroll"><span class="slider"></span></label>
+        </div>
+        <div class="sp-row">
+          <div class="sp-label">Kaydırma Hızı</div><select class="sp-select" id="sScrollSpeed">
+            <option value="slow">Yavaş</option>
+            <option value="medium" selected>Orta</option>
+            <option value="fast">Hızlı</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="sp-group">
+        <div class="sp-group-title">📢 Akan Yazı Bandı</div>
+        <div class="sp-row">
+          <div class="sp-label">Ticker Göster</div><label class="toggle"><input type="checkbox" id="sTicker"><span
+              class="slider"></span></label>
+        </div>
+        <div class="sp-row">
+          <div class="sp-label">Ticker Metni</div>
+        </div>
+        <div class="sp-row"><input class="sp-input" id="sTickerText" style="width:100%"
+            placeholder="Akan yazı metni..."></div>
+      </div>
+
+      <div class="sp-group">
+        <div class="sp-group-title">⏰ Geri Sayım</div>
+        <div class="sp-row">
+          <div class="sp-label">Nöbet Geri Sayım<small>Nöbet bitişine kalan süre</small></div><label
+            class="toggle"><input type="checkbox" id="sCountdown"><span class="slider"></span></label>
+        </div>
+      </div>
+
+      <div class="sp-group">
+        <div class="sp-group-title">🏥 Eczane Bilgisi</div>
+        <div class="sp-row">
+          <div class="sp-label">Eczane Bandı Göster</div><label class="toggle"><input type="checkbox" id="sPharma"><span
+              class="slider"></span></label>
+        </div>
+        <div class="sp-row">
+          <div class="sp-label">Eczane Adı</div><input class="sp-input" id="sPharmaName" value="Polen Eczanesi">
+        </div>
+        <div class="sp-row">
+          <div class="sp-label">Telefon</div><input class="sp-input" id="sPharmaPhone" value="0222 XXX XX XX">
+        </div>
+        <div class="sp-row">
+          <div class="sp-label">Adres</div><input class="sp-input" id="sPharmaAddr" value="Eskişehir Merkez">
+        </div>
+        <div class="sp-row">
+          <div class="sp-label">Çalışma Saatleri</div><input class="sp-input" id="sPharmaHours" value="08:30 - 19:00">
+        </div>
+      </div>
+
+      <button class="sp-close" id="settingsClose">Kaydet ve Kapat</button>
+    </div>
+  </div>
 
   <script>
     // ── SAAT ────────────────────────────────────────────────────────────────────
@@ -1173,6 +1637,13 @@
         console.log('Merkez eczane:', merkezData.length, 'Aktif:', aktifData.length, 'Gosterilen:', filtrelenmisData.length);
 
         goster(filtrelenmisData);
+
+        // Geri sayim icin nobet bitis zamanini ayarla
+        if (filtrelenmisData.length > 0 && filtrelenmisData[0].nobet_bitis) {
+          const nb = parseTarih(filtrelenmisData[0].nobet_bitis);
+          if (nb) { currentNobetBitis = nb.getTime(); if (typeof updateCountdown === 'function') updateCountdown(); }
+        }
+
         const lu = new Date();
         const luStr = lu.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
         const luEl = document.getElementById('last-updated');
@@ -1244,7 +1715,161 @@
 
     // ── BAŞLAT — Her 30 dakikada bir otomatik yenile ──────────────────
     veriGetir();
-    setInterval(() => veriGetir(true), 30 * 60 * 1000); // 30 dakika
+    setInterval(() => veriGetir(true), 30 * 60 * 1000);
+
+    // ══════════════════════════════════════════════════════════════════
+    // ── AYARLAR SİSTEMİ ──────────────────────────────────────────────
+    // ══════════════════════════════════════════════════════════════════
+
+    const DEFAULTS = {
+      kiosk: false, fontSize: 'normal',
+      autoScroll: false, scrollSpeed: 'medium',
+      ticker: false, tickerText: '🏥 Polen Eczanesi — Sağlığınız İçin Her Zaman Yanınızda!    📞 Bilgi için arayın    💊 Nöbetçi eczane bilgileri Eskişehir Eczacı Odası\'ndan alınmaktadır.',
+      countdown: false,
+      pharma: false, pharmaName: 'Polen Eczanesi', pharmaPhone: '0222 XXX XX XX', pharmaAddr: 'Eskişehir Merkez', pharmaHours: '08:30 - 19:00'
+    };
+
+    function loadSettings() {
+      try { return Object.assign({}, DEFAULTS, JSON.parse(localStorage.getItem('polenSettings') || '{}')); }
+      catch (e) { return { ...DEFAULTS }; }
+    }
+    function saveSettings(s) { localStorage.setItem('polenSettings', JSON.stringify(s)); }
+
+    let settings = loadSettings();
+    let scrollInterval = null;
+    let countdownInterval = null;
+    let currentNobetBitis = null;
+
+    // ── Ayarları UI'a yansıt ──
+    function settingsToUI(s) {
+      document.getElementById('sKiosk').checked = s.kiosk;
+      document.getElementById('sFontSize').value = s.fontSize;
+      document.getElementById('sScroll').checked = s.autoScroll;
+      document.getElementById('sScrollSpeed').value = s.scrollSpeed;
+      document.getElementById('sTicker').checked = s.ticker;
+      document.getElementById('sTickerText').value = s.tickerText;
+      document.getElementById('sCountdown').checked = s.countdown;
+      document.getElementById('sPharma').checked = s.pharma;
+      document.getElementById('sPharmaName').value = s.pharmaName;
+      document.getElementById('sPharmaPhone').value = s.pharmaPhone;
+      document.getElementById('sPharmaAddr').value = s.pharmaAddr;
+      document.getElementById('sPharmaHours').value = s.pharmaHours;
+    }
+
+    // ── UI'dan ayarları oku ──
+    function uiToSettings() {
+      return {
+        kiosk: document.getElementById('sKiosk').checked,
+        fontSize: document.getElementById('sFontSize').value,
+        autoScroll: document.getElementById('sScroll').checked,
+        scrollSpeed: document.getElementById('sScrollSpeed').value,
+        ticker: document.getElementById('sTicker').checked,
+        tickerText: document.getElementById('sTickerText').value,
+        countdown: document.getElementById('sCountdown').checked,
+        pharma: document.getElementById('sPharma').checked,
+        pharmaName: document.getElementById('sPharmaName').value,
+        pharmaPhone: document.getElementById('sPharmaPhone').value,
+        pharmaAddr: document.getElementById('sPharmaAddr').value,
+        pharmaHours: document.getElementById('sPharmaHours').value,
+      };
+    }
+
+    // ── Ayarları uygula ──
+    function applySettings(s) {
+      // Kiosk
+      document.body.classList.toggle('kiosk', s.kiosk);
+      // Font
+      document.body.classList.remove('font-large', 'font-xlarge');
+      if (s.fontSize === 'large') document.body.classList.add('font-large');
+      if (s.fontSize === 'xlarge') document.body.classList.add('font-xlarge');
+      // Auto-scroll
+      if (scrollInterval) { clearInterval(scrollInterval); scrollInterval = null; }
+      if (s.autoScroll) { startAutoScroll(s.scrollSpeed); }
+      // Ticker
+      const tw = document.getElementById('tickerWrap');
+      tw.classList.toggle('on', s.ticker);
+      if (s.tickerText) {
+        const ti = document.getElementById('tickerInner');
+        ti.innerHTML = `<span>${s.tickerText}</span><span>${s.tickerText}</span>`;
+      }
+      // Countdown
+      const cb = document.getElementById('countdownBar');
+      cb.classList.toggle('on', s.countdown);
+      if (s.countdown) startCountdown(); else stopCountdown();
+      // Pharma info
+      const pi = document.getElementById('pharmaInfo');
+      pi.classList.toggle('on', s.pharma);
+      document.getElementById('piName').textContent = s.pharmaName;
+      document.getElementById('piPhone').textContent = s.pharmaPhone;
+      document.getElementById('piAddr').textContent = s.pharmaAddr;
+      document.getElementById('piHours').textContent = s.pharmaHours;
+    }
+
+    // ── Otomatik Kaydırma ──
+    function startAutoScroll(speed) {
+      const area = document.querySelector('.scroll-area');
+      if (!area) return;
+      const speeds = { slow: 1, medium: 2, fast: 4 };
+      const px = speeds[speed] || 2;
+      let dir = 1;
+      scrollInterval = setInterval(() => {
+        area.scrollTop += dir * px;
+        if (area.scrollTop + area.clientHeight >= area.scrollHeight - 5) {
+          dir = 0;
+          setTimeout(() => { area.scrollTop = 0; dir = 1; }, 3000);
+        }
+      }, 40);
+    }
+
+    // ── Geri Sayım ──
+    function startCountdown() {
+      if (countdownInterval) clearInterval(countdownInterval);
+      countdownInterval = setInterval(updateCountdown, 1000);
+      updateCountdown();
+    }
+    function stopCountdown() {
+      if (countdownInterval) { clearInterval(countdownInterval); countdownInterval = null; }
+    }
+    function updateCountdown() {
+      if (!currentNobetBitis) {
+        document.getElementById('cdTime').textContent = '--:--:--';
+        return;
+      }
+      const now = Date.now();
+      const diff = currentNobetBitis - now;
+      if (diff <= 0) {
+        document.getElementById('cdTime').textContent = 'Nöbet sona erdi';
+        return;
+      }
+      const h = Math.floor(diff / 3600000);
+      const m = Math.floor((diff % 3600000) / 60000);
+      const sec = Math.floor((diff % 60000) / 1000);
+      document.getElementById('cdTime').textContent =
+        String(h).padStart(2, '0') + ':' + String(m).padStart(2, '0') + ':' + String(sec).padStart(2, '0');
+    }
+
+    // ── Ayarlar Panel Olayları ──
+    document.getElementById('settingsBtn').addEventListener('click', () => {
+      settingsToUI(settings);
+      document.getElementById('settingsOverlay').classList.add('open');
+    });
+    document.getElementById('settingsClose').addEventListener('click', () => {
+      settings = uiToSettings();
+      saveSettings(settings);
+      applySettings(settings);
+      document.getElementById('settingsOverlay').classList.remove('open');
+    });
+    document.getElementById('settingsOverlay').addEventListener('click', (e) => {
+      if (e.target === document.getElementById('settingsOverlay')) {
+        settings = uiToSettings();
+        saveSettings(settings);
+        applySettings(settings);
+        document.getElementById('settingsOverlay').classList.remove('open');
+      }
+    });
+
+    // İlk yüklemede ayarları uygula
+    applySettings(settings);
   </script>
 </body>
 
