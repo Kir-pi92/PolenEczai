@@ -649,6 +649,11 @@
         margin: 5mm;
       }
 
+      html {
+        overflow: visible !important;
+        height: auto !important;
+      }
+
       body {
         background: #fff !important;
         color: #000 !important;
@@ -657,6 +662,7 @@
         margin: 0;
         padding: 0;
         font-size: 10px !important;
+        background-image: none !important;
       }
 
       body::before,
@@ -666,16 +672,21 @@
 
       .page-wrap {
         height: auto !important;
+        overflow: visible !important;
         padding: 0 !important;
+        display: block !important;
       }
 
       header {
-        background: none;
-        border: none;
-        box-shadow: none;
+        background: none !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        border: none !important;
+        box-shadow: none !important;
         padding: 0 0 10px 0 !important;
-        height: auto;
+        height: auto !important;
         justify-content: center;
+        position: relative !important;
       }
 
       .hbrand {
@@ -706,36 +717,59 @@
         font-size: 16px !important;
       }
 
+      .hpolen em {
+        color: #c0392b !important;
+      }
+
       .hpolen-addr {
         font-size: 10px !important;
+        color: #555 !important;
       }
 
       .htitle {
         font-size: 11px !important;
         margin-top: 2px !important;
+        color: #555 !important;
+      }
+
+      .htitle-dot {
+        background: #c0392b !important;
+        box-shadow: none !important;
       }
 
       .scroll-area {
         overflow: visible !important;
-        padding: 0 !important;
+        height: auto !important;
+        padding: 5px !important;
+        flex: none !important;
+      }
+
+      #status {
+        display: none !important;
       }
 
       .grid {
         display: grid !important;
         grid-template-columns: repeat(3, 1fr) !important;
         gap: 6px !important;
+        overflow: visible !important;
       }
 
       .card {
-        page-break-inside: avoid;
-        break-inside: avoid;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+        -webkit-column-break-inside: avoid !important;
         border: 1px solid #ccc !important;
         background: #fff !important;
         box-shadow: none !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
         margin-bottom: 0 !important;
         padding: 6px 8px !important;
         gap: 6px !important;
         font-size: 90% !important;
+        overflow: visible !important;
+        transform: none !important;
       }
 
       .card::before,
@@ -766,6 +800,7 @@
         font-size: 10px !important;
         margin-top: 0 !important;
         filter: none !important;
+        color: #c0392b !important;
       }
 
       .chips {
@@ -809,6 +844,11 @@
       .qrlbl {
         font-size: 8px !important;
         margin-bottom: 0 !important;
+        color: #333 !important;
+      }
+
+      .qrlbl strong {
+        color: #c0392b !important;
       }
 
       footer {
