@@ -841,9 +841,7 @@
       <div class="hright">
         <div class="live"><span class="ldot"></span>CANLI</div>
         <div class="spill" id="spill"><em>—</em> eczane</div>
-        <div class="spill" id="last-updated"
-          style="font-size: 11px; padding: 4px 10px; color: #aaa; border-color: rgba(255,255,255,0.1); display: none;">
-          Son Güncelleme: <em>--:--</em></div>
+
         <button id="ybtn" onclick="veriGetir(true)" title="Yenile">⟳</button>
         <button id="pbtn" onclick="window.print()" title="Yazdır">🖨️</button>
         <div id="weather" title="Eskişehir Odunpazarı Hava Durumu">
@@ -867,6 +865,9 @@
       <span class="footer-sep">|</span>
       <span class="footer-disc">⚠ Verilerin doğruluğundan eczanemiz sorumlu değildir. Veriler Eskişehir Eczacı Odası'nın
         yayınladığı listeden alınmaktadır.</span>
+      <span class="footer-sep">|</span>
+      <span id="last-updated" class="footer-disc" style="display: none; opacity: 0.6;">Son Güncelleme:
+        <em>--:--</em></span>
     </footer>
 
   </div><!-- /page-wrap -->
