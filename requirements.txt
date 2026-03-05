@@ -1,0 +1,10 @@
+customtkinter>=5.2.2
+requests>=2.31.0
+beautifulsoup4>=4.12.3
+Pillow>=10.3.0
+tkintermapview>=1.29
+mss>=9.0.1
+pytesseract>=0.3.10
+openai>=1.30.0
+python-dotenv>=1.0.1
+lxml>=5.2.1

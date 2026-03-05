@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nöbetçi Eczaneler — Eskişehir Merkez</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet" />
+  <!-- QR Kod Kütüphanesi -->
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+  <style>
+    :root {
+      /* Premium Dark & Glassmorphism Colors */
+      --bg: #0f111a;
+      --glass-bg: rgba(255, 255, 255, 0.06);
+      --glass-border: rgba(255, 255, 255, 0.12);
+      --glass-border-highlight: rgba(192, 57, 43, 0.4);
+      --text-main: #ffffff;
+      --text-muted: #959595;
+      --red: #c0392b;
+      --red-br: #ff4747;
+      --red-glow: rgba(255, 71, 71, 0.15);
+      --radius: clamp(14px, 1.5vw, 20px);
+
+      /* Fluid font scale */
+      --f-xs: clamp(9px, .8vw, 11px);
+      --f-sm: clamp(11px, 1vw, 13px);
+      --f-md: clamp(13px, 1.2vw, 15px);
+      --f-lg: clamp(15px, 1.4vw, 18px);
+      --f-xl: clamp(18px, 1.7vw, 24px);
+      --f-2xl: clamp(22px, 2.2vw, 28px);
+      --f-3xl: clamp(26px, 2.8vw, 36px);
+
+      /* Spacing */
+      --s-xs: clamp(4px, .4vw, 6px);
+      --s-sm: clamp(8px, .8vw, 12px);
+      --s-md: clamp(12px, 1.2vw, 18px);
+      --s-lg: clamp(16px, 1.6vw, 24px);
+      --s-xl: clamp(20px, 2vw, 32px);
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    html,
+    body {
+      height: 100%;
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg);
+      /* Subtle dark dot pattern */
+      background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+      background-size: 28px 28px;
+      color: var(--text-main);
+      overflow: hidden;
+    }
+
+    /* Premium Glow Orbs */
+    body::before,
+    body::after {
+      content: '';
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(120px);
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    body::before {
+      top: -10%;
+      left: -10%;
+      width: 50vw;
+      height: 50vw;
+      background: radial-gradient(circle, rgba(220, 40, 40, 0.18) 0%, transparent 70%);
+    }
+
+    body::after {
+      bottom: -20%;
+      right: -10%;
+      width: 60vw;
+      height: 60vw;
+      background: radial-gradient(circle, rgba(192, 57, 43, 0.15) 0%, transparent 70%);
+    }
+
+    .page-wrap {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      width: 100vw;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── HEADER (Glass) ── */
+    header {
+      flex-shrink: 0;
+      background: rgba(15, 17, 26, 0.65);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      border-bottom: 1px solid var(--glass-border);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+      padding: 0 var(--s-xl);
+      height: clamp(74px, 9vh, 96px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 100;
+    }
+
+    .hbrand {
+      display: flex;
+      align-items: center;
+      gap: var(--s-md)
+    }
+
+    .hicon {
+      width: clamp(40px, 4.5vw, 56px);
+      height: clamp(40px, 4.5vw, 56px);
+      background: linear-gradient(135deg, #e74c3c 0%, #900000 100%);
+      border-radius: clamp(10px, 1vw, 14px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: clamp(20px, 2vw, 28px);
+      box-shadow: 0 0 20px rgba(192, 57, 43, .4), inset 0 0 0 1px rgba(255, 255, 255, .2);
+      flex-shrink: 0;
+    }
+
+    .hpolen {
+      font-size: clamp(18px, 1.9vw, 26px);
+      font-weight: 900;
+      letter-spacing: -.5px;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: var(--s-xs);
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .hpolen em {
+      color: var(--red-br);
+      font-style: normal;
+      text-shadow: 0 2px 12px rgba(231, 76, 60, 0.4);
+    }
+
+    .hpolen-addr {
+      font-size: var(--f-xs);
+      color: var(--text-muted);
+      margin-top: 2px;
+      letter-spacing: .3px
+    }
+
+    .htitle {
+      font-size: var(--f-xs);
+      font-weight: 700;
+      color: #888;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-top: clamp(4px, .4vh, 6px);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .htitle-dot {
+      width: 5px;
+      height: 5px;
+      background: var(--red-br);
+      border-radius: 50%;
+      display: inline-block;
+      box-shadow: 0 0 8px var(--red-br)
+    }
+
+    .hright {
+      display: flex;
+      align-items: center;
+      gap: var(--s-md)
+    }
+
+    .live {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--red-glow);
+      border: 1px solid rgba(255, 71, 71, .2);
+      border-radius: 99px;
+      padding: clamp(6px, .6vh, 8px) clamp(16px, 1.6vw, 20px);
+      font-size: clamp(14px, 1.4vw, 18px);
+      font-weight: 800;
+      color: var(--red-br);
+      box-shadow: 0 0 15px rgba(192, 57, 43, .15);
+      letter-spacing: 0.5px;
+    }
+
+    .ldot {
+      width: 8px;
+      height: 8px;
+      background: var(--red-br);
+      border-radius: 50%;
+      animation: pulse 1.8s ease-in-out infinite;
+      box-shadow: 0 0 10px var(--red-br)
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1)
+      }
+
+      50% {
+        opacity: .4;
+        transform: scale(.65)
+      }
+    }
+
+    #clock,
+    #weather {
+      font-size: clamp(14px, 1.4vw, 18px);
+      color: var(--text-muted);
+      font-variant-numeric: tabular-nums;
+      font-weight: 400;
+      background: rgba(255, 255, 255, 0.03);
+      padding: clamp(4px, .5vh, 6px) clamp(10px, 1vw, 16px);
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    #clock b {
+      color: var(--text-main);
+      font-size: clamp(20px, 2.2vw, 28px);
+      font-weight: 800;
+      letter-spacing: -.5px;
+    }
+
+    #weather span {
+      color: var(--text-main);
+      font-size: clamp(18px, 1.8vw, 24px);
+      font-weight: 700;
+    }
+
+    .spill {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 99px;
+      padding: clamp(5px, .6vh, 8px) clamp(12px, 1.2vw, 20px);
+      font-size: var(--f-sm);
+      font-weight: 600;
+    }
+
+    .spill em {
+      color: var(--text-main);
+      font-style: normal;
+      font-weight: 800
+    }
+
+    #ybtn {
+      background: linear-gradient(to bottom, #d32f2f, #a00000);
+      color: #fff;
+      border: none;
+      border-radius: clamp(8px, .8vw, 12px);
+      padding: clamp(8px, .9vh, 12px) clamp(16px, 1.6vw, 24px);
+      font-size: var(--f-sm);
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all .3s ease;
+      box-shadow: 0 4px 15px rgba(192, 57, 43, .3), inset 0 1px 0 rgba(255, 255, 255, .2);
+      letter-spacing: .5px;
+      text-transform: uppercase;
+    }
+
+    #ybtn:hover {
+      filter: brightness(1.2);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(192, 57, 43, .4), inset 0 1px 0 rgba(255, 255, 255, .3);
+    }
+
+    #ybtn:active {
+      transform: translateY(1px)
+    }
+
+    #ybtn.loading {
+      opacity: .6;
+      pointer-events: none
+    }
+
+    #pbtn {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: clamp(8px, .8vw, 12px);
+      padding: clamp(8px, .9vh, 12px) clamp(16px, 1.6vw, 24px);
+      font-size: var(--f-sm);
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all .3s ease;
+      letter-spacing: .5px;
+      text-transform: uppercase;
+      margin-right: clamp(4px, .5vw, 8px);
+    }
+
+    #pbtn:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    /* ── SCROLL ALANI ── */
+    .scroll-area {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      position: relative;
+      z-index: 1;
+      padding: var(--s-lg) var(--s-lg) var(--s-xl);
+    }
+
+    .scroll-area::-webkit-scrollbar {
+      width: 6px
+    }
+
+    .scroll-area::-webkit-scrollbar-track {
+      background: transparent
+    }
+
+    .scroll-area::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 6px
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(min(100%, 580px), 1fr));
+      gap: clamp(14px, 1.6vh, 24px);
+    }
+
+    /* ── GLASS KART ── */
+    .card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius);
+      padding: clamp(18px, 2vh, 28px) clamp(18px, 2vw, 28px);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 0 clamp(16px, 1.6vw, 24px);
+      position: relative;
+      overflow: hidden;
+      transition: all .3s cubic-bezier(0.2, 0.8, 0.2, 1);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(255, 255, 255, 0.15) 0%, transparent 100%);
+    }
+
+    /* İnce kırmızı sol kenar vurgusu */
+    .card::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 3px;
+      background: linear-gradient(to bottom, var(--red-br), transparent);
+      opacity: 0.7;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      background: rgba(255, 255, 255, 0.09);
+      border-color: var(--glass-border-highlight);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(192, 57, 43, .15);
+    }
+
+    .ci {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(8px, 1vh, 14px);
+      min-width: 0;
+      justify-content: center;
+    }
+
+    .cname {
+      font-size: clamp(18px, 1.9vw, 26px);
+      font-weight: 900;
+      line-height: 1.15;
+      letter-spacing: -.5px;
+      color: var(--text-main);
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+      display: flex;
+      align-items: center;
+    }
+
+    .caddr {
+      font-size: clamp(12px, 1.3vw, 16px);
+      color: var(--text-muted);
+      line-height: 1.6;
+      display: flex;
+      gap: 8px;
+      font-weight: 300;
+    }
+
+    .caddr-ic {
+      color: var(--red-br);
+      flex-shrink: 0;
+      margin-top: 2px;
+      font-size: .9em;
+      filter: drop-shadow(0 0 4px rgba(192, 57, 43, 0.5));
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: clamp(6px, .7vw, 10px);
+      margin-top: auto;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: clamp(11px, 1.1vw, 14px);
+      font-weight: 600;
+      padding: clamp(5px, .6vh, 8px) clamp(10px, 1vw, 16px);
+      border-radius: 8px;
+    }
+
+    .chip-t {
+      background: rgba(255, 255, 255, .03);
+      border: 1px solid rgba(255, 255, 255, .1);
+      color: #ddd
+    }
+
+    .chip-s {
+      background: linear-gradient(135deg, rgba(192, 57, 43, 0.15), rgba(192, 57, 43, 0.05));
+      border: 1px solid rgba(231, 76, 60, .3);
+      color: var(--red-br);
+      box-shadow: inset 0 0 10px rgba(255, 71, 71, 0.05);
+    }
+
+    .cqr {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      flex-shrink: 0
+    }
+
+    .qrbox {
+      background: #fff;
+      border-radius: clamp(10px, 1vw, 16px);
+      padding: clamp(6px, .6vw, 10px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, .6);
+      width: clamp(90px, 9.5vw, 130px);
+      height: clamp(90px, 9.5vw, 130px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .qrbox canvas,
+    .qrbox img {
+      display: block;
+      max-width: 100%;
+      max-height: 100%
+    }
+
+    .qrlbl {
+      font-size: var(--f-xs);
+      color: var(--text-muted);
+      text-align: center;
+      line-height: 1.4;
+      letter-spacing: .5px;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .qrlbl strong {
+      color: var(--red-br)
+    }
+
+    /* ── DURUM ── */
+    #status {
+      display: none;
+      text-align: center;
+      padding: 15vh 20px;
+      position: relative;
+      z-index: 1
+    }
+
+    #status.show {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .si {
+      font-size: clamp(40px, 6vw, 64px);
+      margin-bottom: var(--s-md);
+      filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.2))
+    }
+
+    .st {
+      font-size: var(--f-lg);
+      color: var(--text-muted);
+      font-weight: 300;
+    }
+
+    /* ── FOOTER (Glass) ── */
+    footer {
+      flex-shrink: 0;
+      background: rgba(15, 17, 26, 0.7);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      border-top: 1px solid var(--glass-border);
+      padding: clamp(8px, 1vh, 14px) var(--s-xl);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--s-md);
+      flex-wrap: wrap;
+      z-index: 50;
+      box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .footer-text {
+      font-size: var(--f-xs);
+      color: #777;
+      letter-spacing: .8px;
+      font-weight: 400;
+    }
+
+    .footer-text em {
+      color: var(--red-br);
+      font-style: normal;
+      font-weight: 700;
+    }
+
+    .footer-sep {
+      color: #444;
+      font-size: var(--f-xs)
+    }
+
+    .footer-disc {
+      font-size: var(--f-xs);
+      color: #555;
+      letter-spacing: .3px;
+      font-style: italic;
+    }
+
+    /* ── MOBİL UYUM (Responsive) ── */
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        height: auto;
+        padding: 16px;
+        gap: 16px;
+      }
+
+      .hbrand {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .hright {
+        width: 100%;
+        justify-content: space-between;
+        flex-wrap: wrap;
+      }
+
+      .live {
+        order: 1;
+      }
+
+      #ybtn {
+        order: 2;
+      }
+
+      #clock {
+        order: 3;
+        width: 100%;
+        text-align: center;
+        margin-top: 8px;
+        font-size: 15px;
+      }
+
+      .spill {
+        display: none;
+      }
+
+      .scroll-area {
+        overflow-x: hidden;
+        overflow-y: auto;
+        padding: 12px;
+      }
+
+      .grid {
+        /* Mobil ekranda en az 2 kart yan yana duracak (minimum genislik kucultuldu) */
+        grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+        gap: 12px;
+      }
+
+      .card {
+        padding: 14px 12px;
+        gap: 12px;
+      }
+
+      .cname {
+        font-size: 17px;
+      }
+
+      .caddr {
+        font-size: 12px;
+      }
+
+      .qrbox {
+        width: 70px;
+        height: 70px;
+        padding: 4px;
+      }
+
+      .qrlbl {
+        font-size: 10px;
+      }
+    }
+
+    /* ── YAZDIRMA UYUMU (Print) ── */
+    @media print {
+      body {
+        background: #fff !important;
+        color: #000 !important;
+        overflow: visible !important;
+        height: auto !important;
+      }
+
+      body::before,
+      body::after {
+        display: none !important;
+      }
+
+      .page-wrap {
+        height: auto !important;
+      }
+
+      header {
+        background: none;
+        border: none;
+        box-shadow: none;
+        padding: 0 0 20px 0;
+        height: auto;
+      }
+
+      .hright {
+        display: none !important;
+      }
+
+      .hpolen {
+        color: #000 !important;
+        text-shadow: none !important;
+      }
+
+      .cname {
+        color: #000 !important;
+        text-shadow: none !important;
+      }
+
+      .caddr {
+        color: #333 !important;
+      }
+
+      .scroll-area {
+        overflow: visible !important;
+        padding: 0 !important;
+      }
+
+      .grid {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 10px !important;
+      }
+
+      .card {
+        page-break-inside: avoid;
+        break-inside: avoid;
+        border: 1px solid #ccc !important;
+        background: #fff !important;
+        box-shadow: none !important;
+        margin-bottom: 0 !important;
+        padding: 8px 12px !important;
+        gap: 10px !important;
+        font-size: 85% !important;
+        /* Scale down to fit well on A4 */
+      }
+
+      .card::before,
+      .card::after {
+        display: none !important;
+      }
+
+      .chip-t {
+        background: #eee !important;
+        color: #000 !important;
+        border: 1px solid #ccc !important;
+      }
+
+      .chip-s {
+        background: #fff0f0 !important;
+        color: #c00 !important;
+        border: 1px solid #c00 !important;
+      }
+
+      .qrbox {
+        width: 80px !important;
+        height: 80px !important;
+        padding: 4px !important;
+      }
+
+      .qrlbl {
+        font-size: 9px !important;
+      }
+
+      .cqr {
+        display: flex !important;
+        margin-left: auto;
+      }
+
+      footer {
+        display: none !important;
+      }
+
+      svg path {
+        fill: #c0392b !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page-wrap">
+
+    <header>
+      <div class="hbrand">
+        <div class="hicon">
+          <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style="width: 60%; height: 60%;">
+            <path d="M25 15h50v15H45v13h25v14H45v13h30v15H25V15z" fill="white" />
+          </svg>
+        </div>
+        <div>
+          <div class="hpolen"><em>Polen</em>&nbsp;Eczanesi</div>
+          <div class="hpolen-addr">Eskişehir Merkez</div>
+          <div class="htitle"><span class="htitle-dot"></span>Nöbetçi Eczaneler</div>
+        </div>
+      </div>
+      <div class="hright">
+        <div class="live"><span class="ldot"></span>CANLI</div>
+        <div class="spill" id="spill"><em>—</em> eczane</div>
+        <button id="ybtn" onclick="veriGetir(true)" title="Yenile">⟳</button>
+        <button id="pbtn" onclick="window.print()" title="Yazdır">🖨️</button>
+        <div id="weather" title="Eskişehir Odunpazarı Hava Durumu">
+          <span id="w_icon">🌤️</span> <span id="w_temp">--°C</span>
+        </div>
+        <div id="clock"></div>
+      </div>
+    </header>
+
+    <div class="scroll-area">
+      <div id="status">
+        <div class="si" id="si">⏳</div>
+        <div class="st" id="st">Verilen yükleniyor… (Yaklaşık 3-5 saniye sürebilir)</div>
+      </div>
+      <div class="grid" id="grid"></div>
+    </div>
+
+    <footer>
+      <span class="footer-text">Bu yazılım <em>Polen Eczanesi</em> için Özel Olarak Yapılmıştır &nbsp;·&nbsp; Eskişehir
+        Merkez Nöbetçi Eczane Listesi</span>
+      <span class="footer-sep">|</span>
+      <span class="footer-disc">⚠ Verilerin doğruluğundan eczanemiz sorumlu değildir. Veriler Eskişehir Eczacı Odası'nın
+        yayınladığı listeden alınmaktadır.</span>
+    </footer>
+
+  </div><!-- /page-wrap -->
+
+  <script>
+    // ── SAAT ────────────────────────────────────────────────────────────────────
+    function tick() {
+      const d = new Date();
+      const t = d.toLocaleDateString('tr-TR', { weekday: 'long', day: 'numeric', month: 'long' });
+      const s = d.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
+      document.getElementById('clock').innerHTML = t + ' <span style="font-size: 13px; color:#555; margin:0 4px">|</span> <b>' + s + '</b>';
+    }
+    tick(); setInterval(tick, 10000);
+
+    // ── HAVA DURUMU (ESKİŞEHİR ODUNPAZARI) ──────────────────────────────────────
+    function getWeatherIcon(code) {
+      if (code === 0) return '☀️'; // Güneşli
+      if (code === 1 || code === 2) return '⛅'; // Parçalı Bulutlu
+      if (code === 3) return '☁️'; // Çok Bulutlu
+      if (code >= 40 && code <= 49) return '🌫️'; // Sisli
+      if ((code >= 50 && code <= 69) || (code >= 80 && code <= 82)) return '🌧️'; // Yağmurlu
+      if ((code >= 70 && code <= 79) || (code >= 85 && code <= 86)) return '🌨️'; // Karlı/Sulu Kar
+      if (code >= 90 && code <= 99) return '⛈️'; // Gök Gürültülü / Fırtınalı
+      return '🌤️';
+    }
+
+    async function fetchWeather() {
+      try {
+        // Eskişehir Odunpazarı Koordinatları: 39.7667° K, 30.5256° D
+        const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=39.7667&longitude=30.5256&current_weather=true&timezone=auto');
+        const data = await res.json();
+
+        if (data.current_weather) {
+          const temp = Math.round(data.current_weather.temperature);
+          const icon = getWeatherIcon(data.current_weather.weathercode);
+          document.getElementById('w_icon').textContent = icon;
+          document.getElementById('w_temp').textContent = temp + '°C';
+        }
+      } catch (err) {
+        console.error('Hava durumu alınamadı:', err);
+      }
+    }
+    fetchWeather(); // İlk Açılışta Al
+    setInterval(fetchWeather, 30 * 60 * 1000); // Her 30 dakikada bir yenile
+
+
+    // ── QR ──────────────────────────────────────────────────────────────────────
+    function makeQR(el, url) {
+      try {
+        new QRCode(el, {
+          text: url, width: 120, height: 120,
+          colorDark: '#0a0a0a', colorLight: '#ffffff',
+          correctLevel: QRCode.CorrectLevel.M
+        });
+      } catch (e) {
+        el.innerHTML = '<div style="font-size:9px;color:#555;padding:6px;text-align:center">QR yok</div>';
+      }
+    }
+
+    // ── SCRAPING MANTIGI (Github Actions JSON) ──────────────────────────────
+    async function veriGetir(force = false) {
+      const btn = document.getElementById('ybtn');
+      const st = document.getElementById('status');
+      btn.textContent = '⏳'; btn.classList.add('loading');
+      st.className = 'show';
+      document.getElementById('si').textContent = '⏳';
+      document.getElementById('st').textContent = 'Nöbetçi eczaneler bulunuyor... Lütfen bekleyiniz.';
+      document.getElementById('grid').innerHTML = '';
+
+      try {
+        // Github Actions tarafindan olusturulan statik data.json dosyamızı çekiyoruz.
+        const ts = force ? `?_ts=${Date.now()}` : '';
+        const response = await fetch(`data.json${ts}`, { cache: "no-store" });
+
+        const json = await response.json();
+
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+
+        const htmlText = json.contents;
+
+        if (!htmlText || htmlText.length < 50) {
+          throw new Error('Eczacı Odası web sitesinden veri gelmedi.');
+        }
+
+        // Gelen metni sanal DOM'a çevir
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(htmlText, "text/html");
+
+        const h4Etiketleri = doc.querySelectorAll('h4');
+        let data = [];
+
+        // Çerez uyarı gibi istenmeyen başlıkları filtrelemek için blacklist
+        const blacklist = ["çerez ayarları", "gizlilik politikamız", "cerez ayarları", "nöbetçidir", "nöbetçi", "oben"];
+
+        h4Etiketleri.forEach(h4 => {
+          const rawText = h4.innerText.trim();
+          let ad = rawText;
+          let ilce = "Bilinmiyor";
+
+          if (rawText.includes(' - ')) {
+            const parts = rawText.split(' - ');
+            ad = parts[0].trim();
+            ilce = parts[1].trim();
+          }
+
+          if (!ad || blacklist.includes(ad.toLowerCase()) || ad.length < 3) return;
+
+          // H4'ten sonraki kardeş elementleri (metin olarak) al
+          let adresMetin = "";
+          let nobetBaslangic = "";
+          let nobetBitis = "";
+          let telefon = "";
+          let haritaLink = "";
+
+          let sib = h4.nextSibling;
+          while (sib && sib.tagName !== 'H4') {
+            if (sib.textContent) {
+              adresMetin += sib.textContent + " ";
+            }
+
+            // A etiketi var mı diye kontrol et (Google maps için)
+            if (sib.tagName === 'A' && sib.href && sib.href.includes('maps')) {
+              // allorigins href'leri bazen bozabilir, o yüzden metindeki URL'yi düzeltemiyorsak kendi parametresini arıyoruz
+              haritaLink = sib.getAttribute('href');
+            }
+
+            sib = sib.nextSibling;
+          }
+
+          // Koordinat bul
+          let lat = null, lon = null;
+          let latLonMatch = haritaLink.match(/q=([\d.]+),([\d.]+)/);
+          if (latLonMatch) {
+            lat = latLonMatch[1];
+            lon = latLonMatch[2];
+          }
+
+          // Telefon bul: 0 ile başlayan ve ardışık numaralar içeren bir regex
+          const tMatch = adresMetin.match(/0\d{10}|0\d{3}\s?\d{3}\s?\d{4}/);
+          if (tMatch) telefon = tMatch[0].trim();
+
+          // Saat bul
+          const sMatch = adresMetin.match(/(\d{2}\.\d{2}\.\d{4}\s+\d{2}:\d{2})\s*\/\s*(\d{2}\.\d{2}\.\d{4}\s+\d{2}:\d{2})/);
+          if (sMatch) {
+            nobetBaslangic = sMatch[1].trim();
+            nobetBitis = sMatch[2].trim();
+          }
+
+          // Adresi temizle (Telefonu, saatleri ve link metinlerini at)
+          let temizAdres = adresMetin.replace(/\s+/g, ' ').trim();
+          temizAdres = temizAdres.replace(/0\d{10}.*/, '');
+          temizAdres = temizAdres.replace(/\d{2}\.\d{2}\.\d{4}.*/, '');
+
+          data.push({
+            ad: ad,
+            ilce: ilce,
+            adres: temizAdres.trim(),
+            telefon: telefon,
+            lat: lat, lon: lon,
+            harita_link: haritaLink,
+            nobet_baslangic: nobetBaslangic,
+            nobet_bitis: nobetBitis
+          });
+        });
+
+        // Tarih cevirme yardimcisi: "DD.MM.YYYY HH:MM" -> Date objesi
+        function parseTarih(str) {
+          if (!str) return null;
+          const parts = str.split(' ');
+          if (parts.length !== 2) return null;
+          const d = parts[0].split('.');
+          const t = parts[1].split(':');
+          if (d.length !== 3 || t.length !== 2) return null;
+          return new Date(d[2], parseInt(d[1], 10) - 1, d[0], t[0], t[1]);
+        }
+
+        const nowMs = new Date().getTime();
+        const merkez = ['MERKEZ-ODUNPAZARI', 'MERKEZ-TEPEBAŞI', 'MERKEZ-ODUNPAZARI ', 'MERKEZ-TEPEBAŞI '];
+
+        // Sadece MERKEZ ilcelerini ve akilli zamanlamaya uyanlari filtrele
+        const filtrelenmisData = data.filter(e => {
+          const isMerkez = merkez.some(m => (e.ilce || '').toUpperCase().includes('MERKEZ'));
+          if (!isMerkez) return false;
+
+          if (e.nobet_baslangic && e.nobet_bitis) {
+            const start = parseTarih(e.nobet_baslangic);
+            const end = parseTarih(e.nobet_bitis);
+
+            if (start && end) {
+              const startMs = start.getTime();
+              const endMs = end.getTime();
+
+              // 1. Eczanenin vardiyasi (nobet bitis saati) sure olarak gecmisse ekrandan gizle
+              if (nowMs > endMs) return false;
+
+              // 2. Eczanenin vardiyasinin baslamasina 4 saatten daha cok zaman varsa ekrandan simdilik gizle
+              // (Boyrece ayni gunde oglen, aksam ve gece nobetleri 20 eczane listelenip kafa karistirmaz)
+              if (startMs - nowMs > (4 * 60 * 60 * 1000)) return false;
+            }
+          }
+          return true;
+        });
+
+        goster(filtrelenmisData);
+        st.className = '';
+      } catch (e) {
+        document.getElementById('si').textContent = '❌';
+        document.getElementById('st').textContent = 'Ağ Hatası: Oda sitesine bağlanılamadı. Lütfen internetinizi kontrol edin.';
+        console.error(e);
+      } finally {
+        btn.textContent = '⟳'; btn.classList.remove('loading');
+      }
+    }
+
+    // ── KARTLAR ─────────────────────────────────────────────────────────────────
+    function goster(data) {
+      const grid = document.getElementById('grid');
+      grid.innerHTML = '';
+      document.getElementById('spill').innerHTML = '<em>' + data.length + '</em> nöbetçi eczane';
+
+      if (!data.length) {
+        grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:60px;color:#555;font-size:16px">⚗️ Merkez bölgesinde nöbetçi eczane bulunamadı.</div>';
+        return;
+      }
+
+      data.forEach((e, i) => {
+        let murl = '';
+        if (e.harita_link && e.harita_link.includes('http')) {
+          murl = e.harita_link;
+        } else if (e.lat && e.lon) {
+          murl = `https://www.google.com/maps/search/?api=1&query=${e.lat},${e.lon}`;
+        } else if (e.adres) {
+          murl = `https://maps.google.com/?q=${encodeURIComponent(e.adres)}`;
+        }
+
+        const saat = (e.nobet_baslangic && e.nobet_bitis)
+          ? e.nobet_baslangic.split(' ')[1] + ' – ' + e.nobet_bitis.split(' ')[1] : '';
+
+        const addr = (e.adres || '').substring(0, 130);
+
+        const c = document.createElement('div');
+        c.className = 'card';
+        c.innerHTML = `
+      <div class="ci">
+        <div class="cname">
+          <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style="width: 1.2em; height: 1.2em; margin-right: 8px; flex-shrink: 0; box-shadow: 0 0 8px rgba(227, 6, 19, 0.4); border-radius: 20%;">
+            <rect width="100" height="100" rx="22" fill="#E30613"/>
+            <path d="M25 15h50v15H45v13h25v14H45v13h30v15H25V15z" fill="white"/>
+          </svg>
+          <span>${e.ad || '—'}</span>
+        </div>
+        <div class="caddr"><span class="caddr-ic">◈</span><span>${addr || 'Adres bilgisi yok'}</span></div>
+        <div class="chips">
+          ${e.telefon ? `<span class="chip chip-t">📞 ${e.telefon}</span>` : ''}
+          ${saat ? `<span class="chip chip-s">🕐 ${saat}</span>` : ''}
+        </div>
+      </div>
+      <div class="cqr">
+        <div class="qrbox" id="qr${i}"></div>
+        <div class="qrlbl"><strong>QR okut</strong><br>haritada aç</div>
+      </div>`;
+        grid.appendChild(c);
+        if (murl) setTimeout(() => makeQR(document.getElementById('qr' + i), murl), 0);
+        else document.getElementById('qr' + i).innerHTML = '<div style="font-size:9px;color:#555;text-align:center;padding:6px">Konum yok</div>';
+      });
+    }
+
+    // ── BAŞLAT — Günde 2 kez otomatik yenile (12 saatte bir) ──────────────────
+    veriGetir();
+    setInterval(() => veriGetir(true), 12 * 60 * 60 * 1000); // 12 saat = günde 2 kez
+  </script>
+</body>
+
+</html>
