@@ -1101,13 +1101,14 @@
         }
 
         const nowMs = new Date().getTime();
-        const merkez = ['MERKEZ-ODUNPAZARI', 'MERKEZ-TEPEBAŞI', 'MERKEZ-ODUNPAZARI ', 'MERKEZ-TEPEBAŞI '];
 
-        // Sadece MERKEZ ilcelerini ve akilli zamanlamaya uyanlari filtrele
-        const filtrelenmisData = data.filter(e => {
-          const isMerkez = merkez.some(m => (e.ilce || '').toUpperCase().includes('MERKEZ'));
-          if (!isMerkez) return false;
+        // Sadece MERKEZ ilcelerini filtrele
+        const merkezData = data.filter(e => {
+          return (e.ilce || '').toUpperCase().includes('MERKEZ');
+        });
 
+        // Akilli zamanlamaya uyanlari filtrele (aktif veya yakin vardiyalar)
+        const aktifData = merkezData.filter(e => {
           if (e.nobet_baslangic && e.nobet_bitis) {
             const start = parseTarih(e.nobet_baslangic);
             const end = parseTarih(e.nobet_bitis);
@@ -1116,16 +1117,20 @@
               const startMs = start.getTime();
               const endMs = end.getTime();
 
-              // 1. Eczanenin vardiyasi (nobet bitis saati) sure olarak gecmisse ekrandan gizle
+              // Vardiyasi bitmisse gizle
               if (nowMs > endMs) return false;
 
-              // 2. Eczanenin vardiyasinin baslamasina 4 saatten daha cok zaman varsa ekrandan simdilik gizle
-              // (Boyrece ayni gunde oglen, aksam ve gece nobetleri 20 eczane listelenip kafa karistirmaz)
-              if (startMs - nowMs > (4 * 60 * 60 * 1000)) return false;
+              // Vardiyasinin baslamasina 8 saatten fazla varsa simdilik gizle
+              if (startMs - nowMs > (8 * 60 * 60 * 1000)) return false;
             }
           }
           return true;
         });
+
+        // Eger aktif filtreden eczane kalmadiysa, tum MERKEZ eczanelerini goster
+        // (Gunduz saatlerinde nobet bitmis olabilir, en azindan en son verileri gosterelim)
+        const filtrelenmisData = aktifData.length > 0 ? aktifData : merkezData;
+        console.log('Merkez eczane:', merkezData.length, 'Aktif:', aktifData.length, 'Gosterilen:', filtrelenmisData.length);
 
         goster(filtrelenmisData);
         const lu = new Date();
