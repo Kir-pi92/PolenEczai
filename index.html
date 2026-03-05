@@ -958,82 +958,136 @@
         const parser = new DOMParser();
         const doc = parser.parseFromString(htmlText, "text/html");
 
-        const h4Etiketleri = doc.querySelectorAll('h4');
         let data = [];
 
-        // Çerez uyarı gibi istenmeyen başlıkları filtrelemek için blacklist
-        const blacklist = ["çerez ayarları", "gizlilik politikamız", "cerez ayarları", "nöbetçidir", "nöbetçi", "oben"];
+        // Her eczane karti ".nobetci" sinifli bir div icinde
+        const kartlar = doc.querySelectorAll('.nobetci');
 
-        h4Etiketleri.forEach(h4 => {
-          const rawText = h4.innerText.trim();
-          let ad = rawText;
-          let ilce = "Bilinmiyor";
+        // Eger .nobetci bloklari bulunamazsa, h4 bazli fallback dene
+        if (kartlar.length === 0) {
+          console.log('nobetci sinifi bulunamadi, h4 bazli fallback deneniyor...');
+          // H4 bazli fallback: tum h4 elemanlarini bul
+          const h4Etiketleri = doc.querySelectorAll('h4.text-danger');
+          h4Etiketleri.forEach(h4 => {
+            const rawText = (h4.textContent || '').trim();
+            let ad = rawText;
+            let ilce = "Bilinmiyor";
 
-          if (rawText.includes(' - ')) {
-            const parts = rawText.split(' - ');
-            ad = parts[0].trim();
-            ilce = parts[1].trim();
-          }
-
-          if (!ad || blacklist.includes(ad.toLowerCase()) || ad.length < 3) return;
-
-          // H4'ten sonraki kardeş elementleri (metin olarak) al
-          let adresMetin = "";
-          let nobetBaslangic = "";
-          let nobetBitis = "";
-          let telefon = "";
-          let haritaLink = "";
-
-          let sib = h4.nextSibling;
-          while (sib && sib.tagName !== 'H4') {
-            if (sib.textContent) {
-              adresMetin += sib.textContent + " ";
+            if (rawText.includes(' - ')) {
+              const parts = rawText.split(' - ');
+              ad = parts[0].trim();
+              ilce = parts[1].trim();
             }
 
-            // A etiketi var mı diye kontrol et (Google maps için)
-            if (sib.tagName === 'A' && sib.href && sib.href.includes('maps')) {
-              // allorigins href'leri bazen bozabilir, o yüzden metindeki URL'yi düzeltemiyorsak kendi parametresini arıyoruz
-              haritaLink = sib.getAttribute('href');
+            if (!ad || ad.length < 3) return;
+
+            // Parent container icindeki tum metni al
+            const container = h4.closest('.nobetci, .nobetcig, .col-md-10, .col-md-12') || h4.parentElement;
+            const fullText = (container.textContent || '').replace(/\s+/g, ' ').trim();
+
+            // Harita linki bul
+            let haritaLink = "";
+            const mapLinks = container.querySelectorAll('a[href*="maps"], a[href*="google.com/maps"]');
+            if (mapLinks.length > 0) {
+              haritaLink = mapLinks[0].getAttribute('href') || '';
             }
 
-            sib = sib.nextSibling;
-          }
+            // Telefon bul
+            let telefon = "";
+            const telLinks = container.querySelectorAll('a[href^="tel:"]');
+            if (telLinks.length > 0) {
+              telefon = (telLinks[0].textContent || '').trim();
+            } else {
+              const tMatch = fullText.match(/0\d{10}|0\d{3}\s?\d{3}\s?\d{4}/);
+              if (tMatch) telefon = tMatch[0].trim();
+            }
 
-          // Koordinat bul
-          let lat = null, lon = null;
-          let latLonMatch = haritaLink.match(/q=([\d.]+),([\d.]+)/);
-          if (latLonMatch) {
-            lat = latLonMatch[1];
-            lon = latLonMatch[2];
-          }
+            // Koordinat bul
+            let lat = null, lon = null;
+            const latLonMatch = haritaLink.match(/q=([\d.]+),([\d.]+)/);
+            if (latLonMatch) { lat = latLonMatch[1]; lon = latLonMatch[2]; }
 
-          // Telefon bul: 0 ile başlayan ve ardışık numaralar içeren bir regex
-          const tMatch = adresMetin.match(/0\d{10}|0\d{3}\s?\d{3}\s?\d{4}/);
-          if (tMatch) telefon = tMatch[0].trim();
+            // Saat bul
+            let nobetBaslangic = "", nobetBitis = "";
+            const sMatch = fullText.match(/(\d{2}\.\d{2}\.\d{4}\s+\d{2}:\d{2})\s*\/\s*(\d{2}\.\d{2}\.\d{4}\s+\d{2}:\d{2})/);
+            if (sMatch) { nobetBaslangic = sMatch[1].trim(); nobetBitis = sMatch[2].trim(); }
 
-          // Saat bul
-          const sMatch = adresMetin.match(/(\d{2}\.\d{2}\.\d{4}\s+\d{2}:\d{2})\s*\/\s*(\d{2}\.\d{2}\.\d{4}\s+\d{2}:\d{2})/);
-          if (sMatch) {
-            nobetBaslangic = sMatch[1].trim();
-            nobetBitis = sMatch[2].trim();
-          }
+            // Adres: h4'ten sonraki p veya div icindeki ilk metin
+            let temizAdres = fullText.replace(ad, '').replace(ilce, '');
+            temizAdres = temizAdres.replace(/0\d{10}.*/, '').replace(/\d{2}\.\d{2}\.\d{4}.*/, '');
+            temizAdres = temizAdres.replace(/Eczaneyi haritada.*/, '').replace(/nöbetçidir\.?/gi, '');
+            temizAdres = temizAdres.replace(/\s+/g, ' ').trim().substring(0, 200);
 
-          // Adresi temizle (Telefonu, saatleri ve link metinlerini at)
-          let temizAdres = adresMetin.replace(/\s+/g, ' ').trim();
-          temizAdres = temizAdres.replace(/0\d{10}.*/, '');
-          temizAdres = temizAdres.replace(/\d{2}\.\d{2}\.\d{4}.*/, '');
-
-          data.push({
-            ad: ad,
-            ilce: ilce,
-            adres: temizAdres.trim(),
-            telefon: telefon,
-            lat: lat, lon: lon,
-            harita_link: haritaLink,
-            nobet_baslangic: nobetBaslangic,
-            nobet_bitis: nobetBitis
+            data.push({ ad, ilce, adres: temizAdres, telefon, lat, lon, harita_link: haritaLink, nobet_baslangic: nobetBaslangic, nobet_bitis: nobetBitis });
           });
-        });
+        } else {
+          // Ana yontem: .nobetci bloklari uzerinden calis
+          kartlar.forEach(kart => {
+            const h4 = kart.querySelector('h4');
+            if (!h4) return;
+
+            const rawText = (h4.textContent || '').trim();
+            let ad = rawText;
+            let ilce = "Bilinmiyor";
+
+            if (rawText.includes(' - ')) {
+              const parts = rawText.split(' - ');
+              ad = parts[0].trim();
+              ilce = parts[1].trim();
+            }
+
+            // Blacklist: cerez, gizlilik vs.
+            const blacklist = ["çerez ayarları", "gizlilik", "cerez", "oben"];
+            if (!ad || ad.length < 3 || blacklist.some(b => ad.toLowerCase().includes(b))) return;
+
+            // Kart icindeki tum metin
+            const fullText = (kart.textContent || '').replace(/\s+/g, ' ').trim();
+
+            // Harita linki bul (a[href*="maps"])
+            let haritaLink = "";
+            const mapLink = kart.querySelector('a[href*="maps"]');
+            if (mapLink) {
+              haritaLink = mapLink.getAttribute('href') || '';
+            }
+
+            // Telefon bul (a[href^="tel:"])
+            let telefon = "";
+            const telLink = kart.querySelector('a[href^="tel:"]');
+            if (telLink) {
+              telefon = (telLink.textContent || '').trim();
+            } else {
+              const tMatch = fullText.match(/0\d{10}|0\d{3}\s?\d{3}\s?\d{4}/);
+              if (tMatch) telefon = tMatch[0].trim();
+            }
+
+            // Koordinat bul
+            let lat = null, lon = null;
+            const latLonMatch = haritaLink.match(/q=([\d.]+),([\d.]+)/);
+            if (latLonMatch) { lat = latLonMatch[1]; lon = latLonMatch[2]; }
+
+            // Saat bul
+            let nobetBaslangic = "", nobetBitis = "";
+            const sMatch = fullText.match(/(\d{2}\.\d{2}\.\d{4}\s+\d{2}:\d{2})\s*\/\s*(\d{2}\.\d{2}\.\d{4}\s+\d{2}:\d{2})/);
+            if (sMatch) { nobetBaslangic = sMatch[1].trim(); nobetBitis = sMatch[2].trim(); }
+
+            // Adres: fa-home ikonundan sonraki metin (p icindeki ilk metin parcasi)
+            let temizAdres = "";
+            const pTag = kart.querySelector('p');
+            if (pTag) {
+              // p etiketinin tam metnini al, sonra telefondan itibaren kes
+              let adresRaw = (pTag.textContent || '').replace(/\s+/g, ' ').trim();
+              adresRaw = adresRaw.replace(/0\d{10}.*/, '');
+              adresRaw = adresRaw.replace(/\d{2}\.\d{2}\.\d{4}.*/, '');
+              adresRaw = adresRaw.replace(/Eczaneyi haritada.*/, '');
+              adresRaw = adresRaw.replace(/nöbetçidir\.?/gi, '');
+              temizAdres = adresRaw.trim().substring(0, 200);
+            }
+
+            data.push({ ad, ilce, adres: temizAdres, telefon, lat, lon, harita_link: haritaLink, nobet_baslangic: nobetBaslangic, nobet_bitis: nobetBitis });
+          });
+        }
+
+        console.log('Toplam parse edilen eczane:', data.length);
 
         // Tarih cevirme yardimcisi: "DD.MM.YYYY HH:MM" -> Date objesi
         function parseTarih(str) {
