@@ -1,5 +1,7 @@
 name: Eczane Verisi Guncelle
 on:
+  push:
+    branches: [ main ]
   schedule:
     # Her 4 saatte bir calisacak sekilde (Cron formati)
     - cron: "0 */4 * * *"
