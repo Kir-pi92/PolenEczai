@@ -532,7 +532,7 @@
       -webkit-backdrop-filter: blur(28px);
       border-top: 1px solid var(--glass-border);
       padding: clamp(8px, 1vh, 14px) var(--s-xl);
-      display: flex;
+      display: none;
       align-items: center;
       justify-content: center;
       gap: var(--s-md);
@@ -1066,27 +1066,27 @@
       /* ── TICKER ── */
       .ticker-wrap {
         flex-shrink: 0;
-        background: rgba(192, 57, 43, .12);
-        border-top: 1px solid rgba(192, 57, 43, .3);
+        background: rgba(192, 57, 43, .08);
+        border-top: 1px solid rgba(192, 57, 43, .2);
         overflow: hidden;
         height: 0;
         transition: height .3s
       }
 
       .ticker-wrap.on {
-        height: 36px
+        height: 28px
       }
 
       .ticker-inner {
         display: flex;
         align-items: center;
-        height: 36px;
+        height: 28px;
         white-space: nowrap;
         animation: tickerScroll 30s linear infinite
       }
 
       .ticker-inner span {
-        font-size: 14px;
+        font-size: 12px;
         color: #ff6b6b;
         font-weight: 600;
         padding-right: 80px;
@@ -1106,15 +1106,16 @@
       /* ── GERİ SAYIM ── */
       .countdown-bar {
         flex-shrink: 0;
-        background: rgba(15, 17, 26, .8);
-        border-top: 1px solid rgba(255, 255, 255, .08);
-        padding: 6px 20px;
+        background: rgba(10, 12, 20, .9);
+        border-top: 1px solid rgba(255, 255, 255, .06);
+        padding: 2px 16px;
         display: none;
         align-items: center;
         justify-content: center;
-        gap: 16px;
-        font-size: 14px;
-        color: #aaa
+        gap: 10px;
+        height: 28px;
+        font-size: 12px;
+        color: #888
       }
 
       .countdown-bar.on {
@@ -1123,33 +1124,34 @@
 
       .countdown-bar .cd-label {
         font-weight: 600;
-        color: #888;
         text-transform: uppercase;
-        font-size: 11px;
-        letter-spacing: 1px
+        font-size: 10px;
+        letter-spacing: 1px;
+        color: #666
       }
 
       .countdown-bar .cd-time {
-        font-size: 22px;
+        font-size: 15px;
         font-weight: 800;
         color: var(--red-br);
-        font-variant-numeric: tabular-nums;
-        letter-spacing: 1px
+        font-variant-numeric: tabular-nums
       }
 
       /* ── ECZANE BİLGİ ── */
       .pharma-info {
         flex-shrink: 0;
-        background: linear-gradient(135deg, rgba(192, 57, 43, .1), rgba(192, 57, 43, .05));
-        border-top: 1px solid rgba(192, 57, 43, .2);
-        padding: 8px 20px;
+        background: rgba(192, 57, 43, .06);
+        border-top: 1px solid rgba(192, 57, 43, .15);
+        padding: 2px 16px;
         display: none;
         align-items: center;
         justify-content: center;
-        gap: 24px;
-        font-size: 13px;
-        color: #bbb;
-        flex-wrap: wrap
+        gap: 16px;
+        height: 28px;
+        font-size: 11px;
+        color: #999;
+        flex-wrap: nowrap;
+        overflow: hidden
       }
 
       .pharma-info.on {
@@ -1159,18 +1161,19 @@
       .pharma-info .pi-item {
         display: flex;
         align-items: center;
-        gap: 6px
+        gap: 4px;
+        white-space: nowrap
       }
 
       .pharma-info .pi-icon {
         color: var(--red-br);
-        font-size: 14px
+        font-size: 11px
       }
 
       .pharma-info .pi-name {
-        font-weight: 800;
-        color: #fff;
-        font-size: 15px
+        font-weight: 700;
+        color: #ddd;
+        font-size: 12px
       }
 
       /* ── KIOSK MODE ── */
