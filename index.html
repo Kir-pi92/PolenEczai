@@ -1380,8 +1380,7 @@
 
         <button id="ybtn" onclick="veriGetir(true)" title="Yenile">⟳</button>
         <button id="pbtn" onclick="window.print()" title="Yazdır">🖨️</button>
-        <button id="settingsBtn" onclick="document.getElementById('settingsOverlay').classList.add('open')"
-          title="Ayarlar">⚙️</button>
+        <button id="settingsBtn" onclick="openSettings()" title="Ayarlar">⚙️</button>
         <div id="weather" title="Eskişehir Odunpazarı Hava Durumu">
           <span id="w_icon">🌤️</span> <span id="w_temp">--°C</span>
         </div>
@@ -1413,7 +1412,7 @@
 
 
   <!-- Ayarlar Paneli -->
-  <div class="settings-overlay" id="settingsOverlay">
+  <div class="settings-overlay" id="settingsOverlay" onclick="overlayClick(event)">
     <div class="settings-panel">
       <div class="sp-title">⚙️ <span>Kiosk</span> Ayarları</div>
 
@@ -1473,7 +1472,7 @@
         <button class="sp-btn-add" id="campAdd">+ Kampanya Ekle</button>
       </div>
 
-      <button class="sp-close" id="settingsClose">Kaydet ve Kapat</button>
+      <button class="sp-close" onclick="closeSettings()">Kaydet ve Kapat</button>
     </div>
   </div>
 
@@ -1877,25 +1876,20 @@
       }, 40);
     }
 
-    // ── Ayarlar Panel Olayları ──
-    document.getElementById('settingsBtn').addEventListener('click', () => {
+    // ── Ayarlar Panel Fonksiyonları ──
+    function openSettings() {
       settingsToUI(settings);
       document.getElementById('settingsOverlay').classList.add('open');
-    });
-    document.getElementById('settingsClose').addEventListener('click', () => {
+    }
+    function closeSettings() {
       settings = uiToSettings();
       saveSettings(settings);
       applySettings(settings);
       document.getElementById('settingsOverlay').classList.remove('open');
-    });
-    document.getElementById('settingsOverlay').addEventListener('click', (e) => {
-      if (e.target === document.getElementById('settingsOverlay')) {
-        settings = uiToSettings();
-        saveSettings(settings);
-        applySettings(settings);
-        document.getElementById('settingsOverlay').classList.remove('open');
-      }
-    });
+    }
+    function overlayClick(e) {
+      if (e.target === document.getElementById('settingsOverlay')) closeSettings();
+    }
     // ══════════════════════════════════════════════════════════════════
     // ── KAMPANYA / REKLAM SİSTEMİ ────────────────────────────────────
     // ══════════════════════════════════════════════════════════════════
