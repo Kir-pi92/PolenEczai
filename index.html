@@ -877,484 +877,485 @@
       svg path {
         fill: #c0392b !important;
       }
+    }
 
-      /* ── AYARLAR PANELİ ── */
-      .settings-btn {
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        width: 48px;
-        height: 48px;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, .08);
-        border: 1px solid rgba(255, 255, 255, .15);
-        color: #888;
-        font-size: 22px;
-        cursor: pointer;
-        z-index: 200;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: all .3s;
-        backdrop-filter: blur(10px)
+    /* ── AYARLAR PANELİ ── */
+    .settings-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .08);
+      border: 1px solid rgba(255, 255, 255, .15);
+      color: #888;
+      font-size: 22px;
+      cursor: pointer;
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all .3s;
+      backdrop-filter: blur(10px)
+    }
+
+    .settings-btn:hover {
+      background: rgba(255, 255, 255, .15);
+      color: #fff;
+      transform: rotate(90deg)
+    }
+
+    .settings-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .7);
+      z-index: 300;
+      backdrop-filter: blur(5px)
+    }
+
+    .settings-overlay.open {
+      display: flex;
+      align-items: center;
+      justify-content: center
+    }
+
+    .settings-panel {
+      background: #1a1d2e;
+      border: 1px solid rgba(255, 255, 255, .1);
+      border-radius: 16px;
+      padding: 28px 32px;
+      width: min(520px, 90vw);
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, .6)
+    }
+
+    .settings-panel::-webkit-scrollbar {
+      width: 4px
+    }
+
+    .settings-panel::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, .15);
+      border-radius: 4px
+    }
+
+    .sp-title {
+      font-size: 20px;
+      font-weight: 800;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #fff
+    }
+
+    .sp-title span {
+      color: var(--red-br)
+    }
+
+    .sp-group {
+      margin-bottom: 18px;
+      padding: 14px;
+      background: rgba(255, 255, 255, .03);
+      border: 1px solid rgba(255, 255, 255, .08);
+      border-radius: 10px
+    }
+
+    .sp-group-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 12px
+    }
+
+    .sp-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, .05)
+    }
+
+    .sp-row:last-child {
+      border: none
+    }
+
+    .sp-label {
+      font-size: 14px;
+      color: #ccc;
+      font-weight: 500
+    }
+
+    .sp-label small {
+      display: block;
+      font-size: 11px;
+      color: #666;
+      margin-top: 2px;
+      font-weight: 400
+    }
+
+    .toggle {
+      position: relative;
+      width: 44px;
+      height: 24px;
+      flex-shrink: 0
+    }
+
+    .toggle input {
+      opacity: 0;
+      width: 0;
+      height: 0
+    }
+
+    .toggle .slider {
+      position: absolute;
+      inset: 0;
+      background: #333;
+      border-radius: 24px;
+      cursor: pointer;
+      transition: .3s
+    }
+
+    .toggle .slider::before {
+      content: '';
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      left: 3px;
+      bottom: 3px;
+      background: #888;
+      border-radius: 50%;
+      transition: .3s
+    }
+
+    .toggle input:checked+.slider {
+      background: var(--red)
+    }
+
+    .toggle input:checked+.slider::before {
+      transform: translateX(20px);
+      background: #fff
+    }
+
+    .sp-input {
+      background: #0f111a;
+      border: 1px solid rgba(255, 255, 255, .1);
+      color: #fff;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-family: inherit;
+      width: 180px
+    }
+
+    .sp-select {
+      background: #0f111a;
+      border: 1px solid rgba(255, 255, 255, .1);
+      color: #fff;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-family: inherit;
+      width: 180px;
+      cursor: pointer
+    }
+
+    .sp-close {
+      background: linear-gradient(135deg, #c0392b, #900);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 24px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 8px;
+      font-family: inherit;
+      transition: all .3s
+    }
+
+    .sp-close:hover {
+      filter: brightness(1.2)
+    }
+
+    /* ── TICKER ── */
+    .ticker-wrap {
+      flex-shrink: 0;
+      background: rgba(192, 57, 43, .08);
+      border-top: 1px solid rgba(192, 57, 43, .2);
+      overflow: hidden;
+      height: 0;
+      transition: height .3s
+    }
+
+    .ticker-wrap.on {
+      height: 28px
+    }
+
+    .ticker-inner {
+      display: flex;
+      align-items: center;
+      height: 28px;
+      white-space: nowrap;
+      animation: tickerScroll 30s linear infinite
+    }
+
+    .ticker-inner span {
+      font-size: 12px;
+      color: #ff6b6b;
+      font-weight: 600;
+      padding-right: 80px;
+      letter-spacing: .5px
+    }
+
+    @keyframes tickerScroll {
+      0% {
+        transform: translateX(100%)
       }
 
-      .settings-btn:hover {
-        background: rgba(255, 255, 255, .15);
-        color: #fff;
-        transform: rotate(90deg)
+      100% {
+        transform: translateX(-100%)
       }
+    }
 
-      .settings-overlay {
-        display: none;
-        position: fixed;
-        inset: 0;
-        background: rgba(0, 0, 0, .7);
-        z-index: 300;
-        backdrop-filter: blur(5px)
-      }
+    /* ── GERİ SAYIM ── */
+    .countdown-bar {
+      flex-shrink: 0;
+      background: rgba(10, 12, 20, .9);
+      border-top: 1px solid rgba(255, 255, 255, .06);
+      padding: 2px 16px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      height: 28px;
+      font-size: 12px;
+      color: #888
+    }
 
-      .settings-overlay.open {
-        display: flex;
-        align-items: center;
-        justify-content: center
-      }
+    .countdown-bar.on {
+      display: flex
+    }
 
-      .settings-panel {
-        background: #1a1d2e;
-        border: 1px solid rgba(255, 255, 255, .1);
-        border-radius: 16px;
-        padding: 28px 32px;
-        width: min(520px, 90vw);
-        max-height: 85vh;
-        overflow-y: auto;
-        box-shadow: 0 20px 60px rgba(0, 0, 0, .6)
-      }
+    .countdown-bar .cd-label {
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 10px;
+      letter-spacing: 1px;
+      color: #666
+    }
 
-      .settings-panel::-webkit-scrollbar {
-        width: 4px
-      }
+    .countdown-bar .cd-time {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--red-br);
+      font-variant-numeric: tabular-nums
+    }
 
-      .settings-panel::-webkit-scrollbar-thumb {
-        background: rgba(255, 255, 255, .15);
-        border-radius: 4px
-      }
+    /* ── ECZANE BİLGİ ── */
+    .pharma-info {
+      flex-shrink: 0;
+      background: rgba(192, 57, 43, .06);
+      border-top: 1px solid rgba(192, 57, 43, .15);
+      padding: 2px 16px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      height: 28px;
+      font-size: 11px;
+      color: #999;
+      flex-wrap: nowrap;
+      overflow: hidden
+    }
 
-      .sp-title {
-        font-size: 20px;
-        font-weight: 800;
-        margin-bottom: 20px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        color: #fff
-      }
+    .pharma-info.on {
+      display: flex
+    }
 
-      .sp-title span {
-        color: var(--red-br)
-      }
+    .pharma-info .pi-item {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      white-space: nowrap
+    }
 
-      .sp-group {
-        margin-bottom: 18px;
-        padding: 14px;
-        background: rgba(255, 255, 255, .03);
-        border: 1px solid rgba(255, 255, 255, .08);
-        border-radius: 10px
-      }
+    .pharma-info .pi-icon {
+      color: var(--red-br);
+      font-size: 11px
+    }
 
-      .sp-group-title {
-        font-size: 12px;
-        font-weight: 700;
-        color: #888;
-        text-transform: uppercase;
-        letter-spacing: 1.5px;
-        margin-bottom: 12px
-      }
+    .pharma-info .pi-name {
+      font-weight: 700;
+      color: #ddd;
+      font-size: 12px
+    }
 
-      .sp-row {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 8px 0;
-        border-bottom: 1px solid rgba(255, 255, 255, .05)
-      }
+    /* ── KIOSK MODE ── */
+    body.kiosk {
+      cursor: none
+    }
 
-      .sp-row:last-child {
-        border: none
-      }
+    body.kiosk .settings-btn {
+      opacity: 0;
+      transition: opacity .3s
+    }
 
-      .sp-label {
-        font-size: 14px;
-        color: #ccc;
-        font-weight: 500
-      }
+    body.kiosk .settings-btn:hover {
+      opacity: 1
+    }
 
-      .sp-label small {
-        display: block;
-        font-size: 11px;
-        color: #666;
-        margin-top: 2px;
-        font-weight: 400
-      }
+    body.kiosk #ybtn,
+    body.kiosk #pbtn {
+      display: none
+    }
 
-      .toggle {
-        position: relative;
-        width: 44px;
-        height: 24px;
-        flex-shrink: 0
-      }
+    /* ── FONT SIZE ── */
+    body.font-large .cname {
+      font-size: clamp(22px, 2.4vw, 32px) !important
+    }
 
-      .toggle input {
-        opacity: 0;
-        width: 0;
-        height: 0
-      }
+    body.font-large .caddr {
+      font-size: clamp(14px, 1.5vw, 18px) !important
+    }
 
-      .toggle .slider {
-        position: absolute;
-        inset: 0;
-        background: #333;
-        border-radius: 24px;
-        cursor: pointer;
-        transition: .3s
-      }
+    body.font-large .chip {
+      font-size: clamp(13px, 1.3vw, 16px) !important
+    }
 
-      .toggle .slider::before {
-        content: '';
-        position: absolute;
-        width: 18px;
-        height: 18px;
-        left: 3px;
-        bottom: 3px;
-        background: #888;
-        border-radius: 50%;
-        transition: .3s
-      }
+    body.font-xlarge .cname {
+      font-size: clamp(26px, 3vw, 38px) !important
+    }
 
-      .toggle input:checked+.slider {
-        background: var(--red)
-      }
+    body.font-xlarge .caddr {
+      font-size: clamp(16px, 1.8vw, 22px) !important
+    }
 
-      .toggle input:checked+.slider::before {
-        transform: translateX(20px);
-        background: #fff
-      }
+    body.font-xlarge .chip {
+      font-size: clamp(15px, 1.5vw, 18px) !important
+    }
 
-      .sp-input {
-        background: #0f111a;
-        border: 1px solid rgba(255, 255, 255, .1);
-        color: #fff;
-        padding: 8px 12px;
-        border-radius: 8px;
-        font-size: 13px;
-        font-family: inherit;
-        width: 180px
-      }
+    /* ── KAMPANYA/REKLAM KARTLARI ── */
+    .card-ad {
+      position: relative;
+      border: 1px solid rgba(255, 180, 50, .3) !important;
+      background: linear-gradient(135deg, rgba(40, 30, 10, .9), rgba(30, 20, 5, .95)) !important
+    }
 
-      .sp-select {
-        background: #0f111a;
-        border: 1px solid rgba(255, 255, 255, .1);
-        color: #fff;
-        padding: 8px 12px;
-        border-radius: 8px;
-        font-size: 13px;
-        font-family: inherit;
-        width: 180px;
-        cursor: pointer
-      }
+    .card-ad::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: linear-gradient(135deg, rgba(255, 180, 50, .08), transparent);
+      pointer-events: none
+    }
 
-      .sp-close {
-        background: linear-gradient(135deg, #c0392b, #900);
-        color: #fff;
-        border: none;
-        border-radius: 10px;
-        padding: 10px 24px;
-        font-size: 14px;
-        font-weight: 700;
-        cursor: pointer;
-        width: 100%;
-        margin-top: 8px;
-        font-family: inherit;
-        transition: all .3s
-      }
+    .card-ad .ad-badge {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: linear-gradient(135deg, #f39c12, #e67e22);
+      color: #fff;
+      font-size: 9px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 4px;
+      letter-spacing: 1px;
+      text-transform: uppercase
+    }
 
-      .sp-close:hover {
-        filter: brightness(1.2)
-      }
+    .card-ad .ad-title {
+      font-size: clamp(16px, 1.8vw, 24px);
+      font-weight: 800;
+      color: #f1c40f;
+      margin-bottom: 6px;
+      text-shadow: 0 0 20px rgba(241, 196, 15, .3)
+    }
 
-      /* ── TICKER ── */
-      .ticker-wrap {
-        flex-shrink: 0;
-        background: rgba(192, 57, 43, .08);
-        border-top: 1px solid rgba(192, 57, 43, .2);
-        overflow: hidden;
-        height: 0;
-        transition: height .3s
-      }
+    .card-ad .ad-desc {
+      font-size: clamp(12px, 1.2vw, 16px);
+      color: #ddd;
+      line-height: 1.4
+    }
 
-      .ticker-wrap.on {
-        height: 28px
-      }
+    .card-ad .ad-img {
+      width: 100%;
+      max-height: 120px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 8px
+    }
 
-      .ticker-inner {
-        display: flex;
-        align-items: center;
-        height: 28px;
-        white-space: nowrap;
-        animation: tickerScroll 30s linear infinite
-      }
+    .card-ad .ad-content {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      gap: 4px;
+      padding: 4px
+    }
 
-      .ticker-inner span {
-        font-size: 12px;
-        color: #ff6b6b;
-        font-weight: 600;
-        padding-right: 80px;
-        letter-spacing: .5px
-      }
+    /* Kampanya ayarlari */
+    .camp-list {
+      max-height: 200px;
+      overflow-y: auto;
+      margin-bottom: 8px
+    }
 
-      @keyframes tickerScroll {
-        0% {
-          transform: translateX(100%)
-        }
+    .camp-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 10px;
+      background: rgba(255, 255, 255, .03);
+      border: 1px solid rgba(255, 255, 255, .08);
+      border-radius: 8px;
+      margin-bottom: 6px
+    }
 
-        100% {
-          transform: translateX(-100%)
-        }
-      }
+    .camp-item .camp-name {
+      font-size: 13px;
+      color: #ccc;
+      font-weight: 600
+    }
 
-      /* ── GERİ SAYIM ── */
-      .countdown-bar {
-        flex-shrink: 0;
-        background: rgba(10, 12, 20, .9);
-        border-top: 1px solid rgba(255, 255, 255, .06);
-        padding: 2px 16px;
-        display: none;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-        height: 28px;
-        font-size: 12px;
-        color: #888
-      }
+    .camp-del {
+      background: #c0392b;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 4px 10px;
+      font-size: 11px;
+      cursor: pointer;
+      font-weight: 700
+    }
 
-      .countdown-bar.on {
-        display: flex
-      }
+    .camp-del:hover {
+      filter: brightness(1.3)
+    }
 
-      .countdown-bar .cd-label {
-        font-weight: 600;
-        text-transform: uppercase;
-        font-size: 10px;
-        letter-spacing: 1px;
-        color: #666
-      }
+    .sp-btn-add {
+      background: linear-gradient(135deg, #f39c12, #e67e22);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 16px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      width: 100%;
+      font-family: inherit;
+      margin-top: 4px
+    }
 
-      .countdown-bar .cd-time {
-        font-size: 15px;
-        font-weight: 800;
-        color: var(--red-br);
-        font-variant-numeric: tabular-nums
-      }
-
-      /* ── ECZANE BİLGİ ── */
-      .pharma-info {
-        flex-shrink: 0;
-        background: rgba(192, 57, 43, .06);
-        border-top: 1px solid rgba(192, 57, 43, .15);
-        padding: 2px 16px;
-        display: none;
-        align-items: center;
-        justify-content: center;
-        gap: 16px;
-        height: 28px;
-        font-size: 11px;
-        color: #999;
-        flex-wrap: nowrap;
-        overflow: hidden
-      }
-
-      .pharma-info.on {
-        display: flex
-      }
-
-      .pharma-info .pi-item {
-        display: flex;
-        align-items: center;
-        gap: 4px;
-        white-space: nowrap
-      }
-
-      .pharma-info .pi-icon {
-        color: var(--red-br);
-        font-size: 11px
-      }
-
-      .pharma-info .pi-name {
-        font-weight: 700;
-        color: #ddd;
-        font-size: 12px
-      }
-
-      /* ── KIOSK MODE ── */
-      body.kiosk {
-        cursor: none
-      }
-
-      body.kiosk .settings-btn {
-        opacity: 0;
-        transition: opacity .3s
-      }
-
-      body.kiosk .settings-btn:hover {
-        opacity: 1
-      }
-
-      body.kiosk #ybtn,
-      body.kiosk #pbtn {
-        display: none
-      }
-
-      /* ── FONT SIZE ── */
-      body.font-large .cname {
-        font-size: clamp(22px, 2.4vw, 32px) !important
-      }
-
-      body.font-large .caddr {
-        font-size: clamp(14px, 1.5vw, 18px) !important
-      }
-
-      body.font-large .chip {
-        font-size: clamp(13px, 1.3vw, 16px) !important
-      }
-
-      body.font-xlarge .cname {
-        font-size: clamp(26px, 3vw, 38px) !important
-      }
-
-      body.font-xlarge .caddr {
-        font-size: clamp(16px, 1.8vw, 22px) !important
-      }
-
-      body.font-xlarge .chip {
-        font-size: clamp(15px, 1.5vw, 18px) !important
-      }
-
-      /* ── KAMPANYA/REKLAM KARTLARI ── */
-      .card-ad {
-        position: relative;
-        border: 1px solid rgba(255, 180, 50, .3) !important;
-        background: linear-gradient(135deg, rgba(40, 30, 10, .9), rgba(30, 20, 5, .95)) !important
-      }
-
-      .card-ad::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        border-radius: inherit;
-        background: linear-gradient(135deg, rgba(255, 180, 50, .08), transparent);
-        pointer-events: none
-      }
-
-      .card-ad .ad-badge {
-        position: absolute;
-        top: 8px;
-        right: 8px;
-        background: linear-gradient(135deg, #f39c12, #e67e22);
-        color: #fff;
-        font-size: 9px;
-        font-weight: 800;
-        padding: 3px 8px;
-        border-radius: 4px;
-        letter-spacing: 1px;
-        text-transform: uppercase
-      }
-
-      .card-ad .ad-title {
-        font-size: clamp(16px, 1.8vw, 24px);
-        font-weight: 800;
-        color: #f1c40f;
-        margin-bottom: 6px;
-        text-shadow: 0 0 20px rgba(241, 196, 15, .3)
-      }
-
-      .card-ad .ad-desc {
-        font-size: clamp(12px, 1.2vw, 16px);
-        color: #ddd;
-        line-height: 1.4
-      }
-
-      .card-ad .ad-img {
-        width: 100%;
-        max-height: 120px;
-        object-fit: cover;
-        border-radius: 8px;
-        margin-bottom: 8px
-      }
-
-      .card-ad .ad-content {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        gap: 4px;
-        padding: 4px
-      }
-
-      /* Kampanya ayarlari */
-      .camp-list {
-        max-height: 200px;
-        overflow-y: auto;
-        margin-bottom: 8px
-      }
-
-      .camp-item {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 8px 10px;
-        background: rgba(255, 255, 255, .03);
-        border: 1px solid rgba(255, 255, 255, .08);
-        border-radius: 8px;
-        margin-bottom: 6px
-      }
-
-      .camp-item .camp-name {
-        font-size: 13px;
-        color: #ccc;
-        font-weight: 600
-      }
-
-      .camp-del {
-        background: #c0392b;
-        color: #fff;
-        border: none;
-        border-radius: 6px;
-        padding: 4px 10px;
-        font-size: 11px;
-        cursor: pointer;
-        font-weight: 700
-      }
-
-      .camp-del:hover {
-        filter: brightness(1.3)
-      }
-
-      .sp-btn-add {
-        background: linear-gradient(135deg, #f39c12, #e67e22);
-        color: #fff;
-        border: none;
-        border-radius: 8px;
-        padding: 8px 16px;
-        font-size: 13px;
-        font-weight: 700;
-        cursor: pointer;
-        width: 100%;
-        font-family: inherit;
-        margin-top: 4px
-      }
-
-      .sp-btn-add:hover {
-        filter: brightness(1.15)
-      }
+    .sp-btn-add:hover {
+      filter: brightness(1.15)
+    }
   </style>
 </head>
 
