@@ -2001,6 +2001,9 @@
         if (murl) setTimeout(() => makeQR(document.getElementById('qr' + i), murl), 0);
         else document.getElementById('qr' + i).innerHTML = '<div style="font-size:9px;color:#555;text-align:center;padding:6px">Konum yok</div>';
       });
+
+      // Eczaneler render edildikten sonra kampanya/reklamları araya yerleştirir
+      if (typeof injectAds === 'function') injectAds();
     }
 
     // ── BAŞLAT — Her 30 dakikada bir otomatik yenile ──────────────────
