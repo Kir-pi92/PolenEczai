@@ -1871,6 +1871,35 @@
     veriGetir();
     setInterval(() => veriGetir(true), 30 * 60 * 1000);
 
+    // ── CANLI HAVA DURUMU ──────────────────────────────────────────────
+    async function fetchWeather() {
+      try {
+        const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=39.7582&longitude=30.5144&current_weather=true&timezone=Europe/Istanbul');
+        const data = await res.json();
+        if (data && data.current_weather) {
+          const temp = Math.round(data.current_weather.temperature);
+          const code = data.current_weather.weathercode;
+
+          let icon = '☁️';
+          if (code === 0) icon = '☀️'; // Acik
+          else if (code === 1 || code === 2) icon = '🌤️'; // Parcali bulutlu
+          else if (code === 3) icon = '🌥️'; // Cok bulutlu
+          else if ([45, 48].includes(code)) icon = '🌫️'; // Sis
+          else if ([51, 53, 55, 56, 57].includes(code)) icon = '🌦️'; // Ciseleme
+          else if ([61, 63, 65, 66, 67, 80, 81, 82].includes(code)) icon = '🌧️'; // Yagmur
+          else if ([71, 73, 75, 77, 85, 86].includes(code)) icon = '❄️'; // Kar
+          else if ([95, 96, 99].includes(code)) icon = '⛈️'; // Firtina
+
+          document.getElementById('w_temp').textContent = temp + '°C';
+          document.getElementById('w_icon').textContent = icon;
+        }
+      } catch (e) {
+        console.error('Hava durumu alinamadi:', e);
+      }
+    }
+    fetchWeather();
+    setInterval(fetchWeather, 30 * 60 * 1000);
+
     // ══════════════════════════════════════════════════════════════════
     // ── AYARLAR SİSTEMİ ──────────────────────────────────────────────
     // ══════════════════════════════════════════════════════════════════
