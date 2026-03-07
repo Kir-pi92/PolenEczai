@@ -1388,30 +1388,6 @@
         <em>--:--</em></span>
     </footer>
 
-    <!-- Geri Sayım -->
-    <div class="countdown-bar" id="countdownBar">
-      <span class="cd-label">Nöbet Bitişine Kalan:</span>
-      <span class="cd-time" id="cdTime">--:--:--</span>
-    </div>
-
-    <!-- Eczane Bilgi Bandı -->
-    <div class="pharma-info" id="pharmaInfo">
-      <div class="pi-item"><span class="pi-icon">🏥</span><span class="pi-name" id="piName">Polen Eczanesi</span></div>
-      <div class="pi-item"><span class="pi-icon">📞</span><span id="piPhone">0222 XXX XX XX</span></div>
-      <div class="pi-item"><span class="pi-icon">📍</span><span id="piAddr">Eskişehir Merkez</span></div>
-      <div class="pi-item"><span class="pi-icon">🕐</span><span id="piHours">08:30 - 19:00</span></div>
-    </div>
-
-    <!-- Ticker -->
-    <div class="ticker-wrap" id="tickerWrap">
-      <div class="ticker-inner" id="tickerInner">
-        <span>🏥 Polen Eczanesi — Sağlığınız İçin Her Zaman Yanınızda! &nbsp;&nbsp;&nbsp; 📞 Bilgi için arayın
-          &nbsp;&nbsp;&nbsp; 💊 Nöbetçi eczane bilgileri Eskişehir Eczacı Odası'ndan alınmaktadır.</span>
-        <span>🏥 Polen Eczanesi — Sağlığınız İçin Her Zaman Yanınızda! &nbsp;&nbsp;&nbsp; 📞 Bilgi için arayın
-          &nbsp;&nbsp;&nbsp; 💊 Nöbetçi eczane bilgileri Eskişehir Eczacı Odası'ndan alınmaktadır.</span>
-      </div>
-    </div>
-
   </div><!-- /page-wrap -->
 
 
@@ -1451,46 +1427,6 @@
         </div>
       </div>
 
-      <div class="sp-group">
-        <div class="sp-group-title">📢 Akan Yazı Bandı</div>
-        <div class="sp-row">
-          <div class="sp-label">Ticker Göster</div><label class="toggle"><input type="checkbox" id="sTicker"><span
-              class="slider"></span></label>
-        </div>
-        <div class="sp-row">
-          <div class="sp-label">Ticker Metni</div>
-        </div>
-        <div class="sp-row"><input class="sp-input" id="sTickerText" style="width:100%"
-            placeholder="Akan yazı metni..."></div>
-      </div>
-
-      <div class="sp-group">
-        <div class="sp-group-title">⏰ Geri Sayım</div>
-        <div class="sp-row">
-          <div class="sp-label">Nöbet Geri Sayım<small>Nöbet bitişine kalan süre</small></div><label
-            class="toggle"><input type="checkbox" id="sCountdown"><span class="slider"></span></label>
-        </div>
-      </div>
-
-      <div class="sp-group">
-        <div class="sp-group-title">🏥 Eczane Bilgisi</div>
-        <div class="sp-row">
-          <div class="sp-label">Eczane Bandı Göster</div><label class="toggle"><input type="checkbox" id="sPharma"><span
-              class="slider"></span></label>
-        </div>
-        <div class="sp-row">
-          <div class="sp-label">Eczane Adı</div><input class="sp-input" id="sPharmaName" value="Polen Eczanesi">
-        </div>
-        <div class="sp-row">
-          <div class="sp-label">Telefon</div><input class="sp-input" id="sPharmaPhone" value="0222 XXX XX XX">
-        </div>
-        <div class="sp-row">
-          <div class="sp-label">Adres</div><input class="sp-input" id="sPharmaAddr" value="Eskişehir Merkez">
-        </div>
-        <div class="sp-row">
-          <div class="sp-label">Çalışma Saatleri</div><input class="sp-input" id="sPharmaHours" value="08:30 - 19:00">
-        </div>
-      </div>
 
       <div class="sp-group">
         <div class="sp-group-title">📣 Kampanya / Reklam</div>
@@ -1783,12 +1719,6 @@
 
         goster(filtrelenmisData);
 
-        // Geri sayim icin nobet bitis zamanini ayarla
-        if (filtrelenmisData.length > 0 && filtrelenmisData[0].nobet_bitis) {
-          const nb = parseTarih(filtrelenmisData[0].nobet_bitis);
-          if (nb) { currentNobetBitis = nb.getTime(); if (typeof updateCountdown === 'function') updateCountdown(); }
-        }
-
         const lu = new Date();
         const luStr = lu.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
         const luEl = document.getElementById('last-updated');
@@ -1868,22 +1798,20 @@
 
     const DEFAULTS = {
       kiosk: false, fontSize: 'normal',
-      autoScroll: false, scrollSpeed: 'medium',
-      ticker: false, tickerText: '🏥 Polen Eczanesi — Sağlığınız İçin Her Zaman Yanınızda!    📞 Bilgi için arayın    💊 Nöbetçi eczane bilgileri Eskişehir Eczacı Odası\'ndan alınmaktadır.',
-      countdown: false,
-      pharma: false, pharmaName: 'Polen Eczanesi', pharmaPhone: '0222 XXX XX XX', pharmaAddr: 'Eskişehir Merkez', pharmaHours: '08:30 - 19:00'
+      autoScroll: false, scrollSpeed: 'medium'
     };
 
     function loadSettings() {
-      try { return Object.assign({}, DEFAULTS, JSON.parse(localStorage.getItem('polenSettings') || '{}')); }
+      try { return Object.assign({}, DEFAULTS, JSON.parse(localStorage.getItem('polenSettings2') || '{}')); }
       catch (e) { return { ...DEFAULTS }; }
     }
-    function saveSettings(s) { localStorage.setItem('polenSettings', JSON.stringify(s)); }
+    function saveSettings(s) { localStorage.setItem('polenSettings2', JSON.stringify(s)); }
+
+    // Eski ayarlari temizle
+    localStorage.removeItem('polenSettings');
 
     let settings = loadSettings();
     let scrollInterval = null;
-    let countdownInterval = null;
-    let currentNobetBitis = null;
 
     // ── Ayarları UI'a yansıt ──
     function settingsToUI(s) {
@@ -1891,14 +1819,6 @@
       document.getElementById('sFontSize').value = s.fontSize;
       document.getElementById('sScroll').checked = s.autoScroll;
       document.getElementById('sScrollSpeed').value = s.scrollSpeed;
-      document.getElementById('sTicker').checked = s.ticker;
-      document.getElementById('sTickerText').value = s.tickerText;
-      document.getElementById('sCountdown').checked = s.countdown;
-      document.getElementById('sPharma').checked = s.pharma;
-      document.getElementById('sPharmaName').value = s.pharmaName;
-      document.getElementById('sPharmaPhone').value = s.pharmaPhone;
-      document.getElementById('sPharmaAddr').value = s.pharmaAddr;
-      document.getElementById('sPharmaHours').value = s.pharmaHours;
     }
 
     // ── UI'dan ayarları oku ──
@@ -1908,46 +1828,17 @@
         fontSize: document.getElementById('sFontSize').value,
         autoScroll: document.getElementById('sScroll').checked,
         scrollSpeed: document.getElementById('sScrollSpeed').value,
-        ticker: document.getElementById('sTicker').checked,
-        tickerText: document.getElementById('sTickerText').value,
-        countdown: document.getElementById('sCountdown').checked,
-        pharma: document.getElementById('sPharma').checked,
-        pharmaName: document.getElementById('sPharmaName').value,
-        pharmaPhone: document.getElementById('sPharmaPhone').value,
-        pharmaAddr: document.getElementById('sPharmaAddr').value,
-        pharmaHours: document.getElementById('sPharmaHours').value,
       };
     }
 
     // ── Ayarları uygula ──
     function applySettings(s) {
-      // Kiosk
       document.body.classList.toggle('kiosk', s.kiosk);
-      // Font
       document.body.classList.remove('font-large', 'font-xlarge');
       if (s.fontSize === 'large') document.body.classList.add('font-large');
       if (s.fontSize === 'xlarge') document.body.classList.add('font-xlarge');
-      // Auto-scroll
       if (scrollInterval) { clearInterval(scrollInterval); scrollInterval = null; }
       if (s.autoScroll) { startAutoScroll(s.scrollSpeed); }
-      // Ticker
-      const tw = document.getElementById('tickerWrap');
-      tw.classList.toggle('on', s.ticker);
-      if (s.tickerText) {
-        const ti = document.getElementById('tickerInner');
-        ti.innerHTML = `<span>${s.tickerText}</span><span>${s.tickerText}</span>`;
-      }
-      // Countdown
-      const cb = document.getElementById('countdownBar');
-      cb.classList.toggle('on', s.countdown);
-      if (s.countdown) startCountdown(); else stopCountdown();
-      // Pharma info
-      const pi = document.getElementById('pharmaInfo');
-      pi.classList.toggle('on', s.pharma);
-      document.getElementById('piName').textContent = s.pharmaName;
-      document.getElementById('piPhone').textContent = s.pharmaPhone;
-      document.getElementById('piAddr').textContent = s.pharmaAddr;
-      document.getElementById('piHours').textContent = s.pharmaHours;
     }
 
     // ── Otomatik Kaydırma ──
@@ -1964,33 +1855,6 @@
           setTimeout(() => { area.scrollTop = 0; dir = 1; }, 3000);
         }
       }, 40);
-    }
-
-    // ── Geri Sayım ──
-    function startCountdown() {
-      if (countdownInterval) clearInterval(countdownInterval);
-      countdownInterval = setInterval(updateCountdown, 1000);
-      updateCountdown();
-    }
-    function stopCountdown() {
-      if (countdownInterval) { clearInterval(countdownInterval); countdownInterval = null; }
-    }
-    function updateCountdown() {
-      if (!currentNobetBitis) {
-        document.getElementById('cdTime').textContent = '--:--:--';
-        return;
-      }
-      const now = Date.now();
-      const diff = currentNobetBitis - now;
-      if (diff <= 0) {
-        document.getElementById('cdTime').textContent = 'Nöbet sona erdi';
-        return;
-      }
-      const h = Math.floor(diff / 3600000);
-      const m = Math.floor((diff % 3600000) / 60000);
-      const sec = Math.floor((diff % 60000) / 1000);
-      document.getElementById('cdTime').textContent =
-        String(h).padStart(2, '0') + ':' + String(m).padStart(2, '0') + ':' + String(sec).padStart(2, '0');
     }
 
     // ── Ayarlar Panel Olayları ──
