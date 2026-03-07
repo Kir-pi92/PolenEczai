@@ -1540,10 +1540,18 @@
       <div class="sp-title">⚙️ <span>Kiosk</span> Ayarları</div>
 
       <div class="sp-group">
-        <div class="sp-group-title">🖥️ Ekran Modu</div>
+        <div class="sp-group-title">🖥️ Ekran & Özellikler</div>
         <div class="sp-row">
           <div class="sp-label">Tam Ekran Reklam<small>Slayt olarak ekrana vurur (her 2dk)</small></div><label
             class="toggle"><input type="checkbox" id="sFsAd"><span class="slider"></span></label>
+        </div>
+        <div class="sp-row">
+          <div class="sp-label">Hava Durumu Göstergesi<small>Canlı sıcaklık ve arkaplan efekti</small></div><label
+            class="toggle"><input type="checkbox" id="sWeather"><span class="slider"></span></label>
+        </div>
+        <div class="sp-row">
+          <div class="sp-label">Nöbetçi Uyarı Efekti<small>Biz nöbetçiysek ekran kırmızı yanıp söner</small></div><label
+            class="toggle"><input type="checkbox" id="sDutyAlert"><span class="slider"></span></label>
         </div>
       </div>
 
@@ -1614,6 +1622,7 @@
     }
 
     async function fetchWeather() {
+      if (!settings.weatherOn) return;
       try {
         const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=39.7582&longitude=30.5144&current_weather=true&timezone=auto');
         const data = await res.json();
@@ -1916,7 +1925,7 @@
         // "BUGUN BIZ NOBETCIYIZ" KONTROLU
         const isPolenOnDuty = filtrelenmisData.some(e => (e.ad || '').toUpperCase().includes('POLEN'));
         if (isPolenOnDuty) {
-          document.body.classList.add('we-are-onduty');
+          if (settings.dutyAlert) document.body.classList.add('we-are-onduty');
           document.getElementById('spill').innerHTML = '🚨 BUGÜN NÖBETÇİYİZ 🚨';
           document.getElementById('spill').style.background = 'rgba(227, 6, 19, 0.4)';
           document.getElementById('spill').style.color = '#fff';
@@ -2032,7 +2041,7 @@
     // ══════════════════════════════════════════════════════════════════
 
     const DEFAULTS = {
-      fsAd: false,
+      fsAd: false, weatherOn: true, dutyAlert: true,
       autoScroll: false, scrollSpeed: 'medium'
     };
 
@@ -2053,6 +2062,8 @@
     // ── Ayarları UI'a yansıt ──
     function settingsToUI(s) {
       document.getElementById('sFsAd').checked = s.fsAd;
+      document.getElementById('sWeather').checked = s.weatherOn;
+      document.getElementById('sDutyAlert').checked = s.dutyAlert;
       document.getElementById('sScroll').checked = s.autoScroll;
       document.getElementById('sScrollSpeed').value = s.scrollSpeed;
     }
@@ -2061,6 +2072,8 @@
     function uiToSettings() {
       return {
         fsAd: document.getElementById('sFsAd').checked,
+        weatherOn: document.getElementById('sWeather').checked,
+        dutyAlert: document.getElementById('sDutyAlert').checked,
         autoScroll: document.getElementById('sScroll').checked,
         scrollSpeed: document.getElementById('sScrollSpeed').value,
       };
@@ -2075,6 +2088,16 @@
       if (fsAdInterval) { clearInterval(fsAdInterval); fsAdInterval = null; }
       document.getElementById('fsAdOverlay').classList.remove('active');
       if (s.fsAd) { fsAdInterval = setInterval(playNextAd, 120000); } // Her 2 dakikada calisir
+
+      // Özellikler Toggle Kontrolleri
+      document.getElementById('weather').style.display = s.weatherOn ? 'flex' : 'none';
+      if (!s.weatherOn) {
+        document.body.classList.remove('weather-snow', 'weather-rain', 'weather-clear');
+      } else {
+        fetchWeather();
+      }
+
+      if (!s.dutyAlert) document.body.classList.remove('we-are-onduty');
     }
 
     // -- Tam Ekran Reklam Oynatici --
