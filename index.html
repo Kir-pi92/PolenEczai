@@ -57,6 +57,40 @@
       background-size: 28px 28px;
       color: var(--text-main);
       overflow: hidden;
+      transition: background 1.5s ease;
+    }
+
+    /* ── DINAMIK ARKA PLAN ── */
+    body.weather-snow {
+      background-color: #0f1626;
+      background-image: radial-gradient(rgba(173, 216, 230, 0.1) 1px, transparent 1px), linear-gradient(180deg, rgba(20, 40, 70, 0.8) 0%, #0f111a 100%);
+    }
+
+    body.weather-rain {
+      background-color: #121417;
+      background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px), linear-gradient(to bottom, #111b2b, #0f111a);
+    }
+
+    body.weather-clear {
+      background-color: #0d121c;
+      background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px), radial-gradient(circle at top right, rgba(255, 215, 0, 0.08), transparent 40%);
+    }
+
+    body.we-are-onduty {
+      background-color: #1a0808 !important;
+      background-image: radial-gradient(rgba(227, 6, 19, 0.15) 1px, transparent 1px), linear-gradient(to bottom, rgba(130, 0, 0, 0.2), #0f111a) !important;
+      box-shadow: inset 0 0 100px rgba(227, 6, 19, 0.15);
+      animation: alertPulse 3s infinite alternate;
+    }
+
+    @keyframes alertPulse {
+      0% {
+        box-shadow: inset 0 0 80px rgba(227, 6, 19, 0.1);
+      }
+
+      100% {
+        box-shadow: inset 0 0 180px rgba(227, 6, 19, 0.35);
+      }
     }
 
     /* Premium Glow Orbs */
@@ -221,30 +255,50 @@
 
     #clock,
     #weather {
-      font-size: clamp(14px, 1.4vw, 18px);
       color: var(--text-muted);
       font-variant-numeric: tabular-nums;
-      font-weight: 400;
-      background: rgba(255, 255, 255, 0.03);
-      padding: clamp(4px, .5vh, 6px) clamp(10px, 1vw, 16px);
-      border-radius: 8px;
-      border: 1px solid rgba(255, 255, 255, 0.05);
+      font-weight: 500;
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5), 0 4px 12px rgba(0, 0, 0, 0.3);
       display: flex;
-      align-items: center;
-      gap: 6px;
     }
 
-    #clock b {
-      color: var(--text-main);
-      font-size: clamp(20px, 2.2vw, 28px);
-      font-weight: 800;
-      letter-spacing: -.5px;
+    #clock {
+      flex-direction: column;
+      align-items: flex-end;
+      padding: clamp(6px, 1vh, 8px) clamp(12px, 1.5vw, 18px);
+      line-height: 1.15;
+      text-align: right;
+    }
+
+    #weather {
+      align-items: center;
+      gap: 8px;
+      padding: 0 clamp(12px, 1.5vw, 18px);
+    }
+
+    #clock .c-date {
+      font-size: clamp(10px, 1.1vw, 13px);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #bbb;
+      margin-bottom: 2px;
+    }
+
+    #clock .c-time {
+      font-size: clamp(18px, 1.9vw, 24px);
+      color: #f1c40f;
+      font-weight: 900;
+      text-shadow: 0 0 12px rgba(241, 196, 15, 0.3);
+      letter-spacing: 1px;
     }
 
     #weather span {
       color: var(--text-main);
-      font-size: clamp(18px, 1.8vw, 24px);
-      font-weight: 700;
+      font-size: clamp(16px, 1.8vw, 22px);
+      font-weight: 800;
     }
 
     .spill {
@@ -314,7 +368,7 @@
     }
 
     #settingsBtn {
-      background: rgba(255, 255, 255, 0.1);
+      background: linear-gradient(135deg, #1f2533, #0f121a);
       color: #fff;
       border: 1px solid rgba(255, 255, 255, 0.15);
       border-radius: clamp(8px, .8vw, 12px);
@@ -1356,10 +1410,78 @@
     .sp-btn-add:hover {
       filter: brightness(1.15)
     }
+
+    /* ── TAM EKRAN REKLAM / SLAYT MODU ── */
+    .fs-layer {
+      position: fixed;
+      inset: 0;
+      background: #0f111a;
+      z-index: 50;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1.5s ease-in-out;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .fs-layer.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .fs-img {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      opacity: 0.3;
+      filter: blur(10px) brightness(0.6);
+      transform: scale(1.1);
+      transition: all 4s ease;
+    }
+
+    .fs-layer.active .fs-img {
+      transform: scale(1);
+    }
+
+    .fs-content {
+      position: relative;
+      z-index: 51;
+      padding: 40px;
+      max-width: 80%;
+    }
+
+    .fs-content h1 {
+      font-size: clamp(60px, 8vw, 120px);
+      font-weight: 900;
+      color: #fff;
+      text-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+      margin-bottom: 20px;
+      line-height: 1.1;
+      letter-spacing: -2px;
+    }
+
+    .fs-content p {
+      font-size: clamp(24px, 3vw, 40px);
+      color: rgba(255, 255, 255, 0.9);
+      font-weight: 300;
+      text-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+    }
   </style>
 </head>
 
 <body>
+  <div id="fsAdOverlay" class="fs-layer">
+    <div class="fs-img" id="fsAdImg"></div>
+    <div class="fs-content">
+      <h1 id="fsAdTitle"></h1>
+      <p id="fsAdDesc"></p>
+    </div>
+  </div>
+
   <div class="page-wrap">
 
     <header>
@@ -1420,15 +1542,8 @@
       <div class="sp-group">
         <div class="sp-group-title">🖥️ Ekran Modu</div>
         <div class="sp-row">
-          <div class="sp-label">Kiosk Modu<small>İmleç ve butonları gizler</small></div><label class="toggle"><input
-              type="checkbox" id="sKiosk"><span class="slider"></span></label>
-        </div>
-        <div class="sp-row">
-          <div class="sp-label">Yazı Boyutu</div><select class="sp-select" id="sFontSize">
-            <option value="normal">Normal</option>
-            <option value="large">Büyük</option>
-            <option value="xlarge">Çok Büyük</option>
-          </select>
+          <div class="sp-label">Tam Ekran Reklam<small>Slayt olarak ekrana vurur (her 2dk)</small></div><label
+            class="toggle"><input type="checkbox" id="sFsAd"><span class="slider"></span></label>
         </div>
       </div>
 
@@ -1483,40 +1598,41 @@
       const d = new Date();
       const t = d.toLocaleDateString('tr-TR', { weekday: 'long', day: 'numeric', month: 'long' });
       const s = d.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
-      document.getElementById('clock').innerHTML = t + ' <span style="font-size: 13px; color:#555; margin:0 4px">|</span> <b>' + s + '</b>';
+      document.getElementById('clock').innerHTML = '<div class="c-date">' + t + '</div><div class="c-time">' + s + '</div>';
     }
     tick(); setInterval(tick, 10000);
 
-    // ── HAVA DURUMU (ESKİŞEHİR ODUNPAZARI) ──────────────────────────────────────
-    function getWeatherIcon(code) {
-      if (code === 0) return '☀️'; // Güneşli
-      if (code === 1 || code === 2) return '⛅'; // Parçalı Bulutlu
-      if (code === 3) return '☁️'; // Çok Bulutlu
-      if (code >= 40 && code <= 49) return '🌫️'; // Sisli
-      if ((code >= 50 && code <= 69) || (code >= 80 && code <= 82)) return '🌧️'; // Yağmurlu
-      if ((code >= 70 && code <= 79) || (code >= 85 && code <= 86)) return '🌨️'; // Karlı/Sulu Kar
-      if (code >= 90 && code <= 99) return '⛈️'; // Gök Gürültülü / Fırtınalı
-      return '🌤️';
+    // ── HAVA DURUMU & DİNAMİK ARKA PLAN ──────────────────────────────────────
+    function getWeatherIconAndClass(code) {
+      if (code === 0) return ['☀️', 'weather-clear'];
+      if (code === 1 || code === 2 || code === 3) return ['⛅', ''];
+      if (code >= 40 && code <= 49) return ['🌫️', ''];
+      if ((code >= 50 && code <= 69) || (code >= 80 && code <= 82)) return ['🌧️', 'weather-rain'];
+      if ((code >= 70 && code <= 79) || (code >= 85 && code <= 86)) return ['🌨️', 'weather-snow'];
+      if (code >= 90 && code <= 99) return ['⛈️', 'weather-rain'];
+      return ['🌤️', ''];
     }
 
     async function fetchWeather() {
       try {
-        // Eskişehir Odunpazarı Koordinatları: 39.7667° K, 30.5256° D
-        const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=39.7667&longitude=30.5256&current_weather=true&timezone=auto');
+        const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=39.7582&longitude=30.5144&current_weather=true&timezone=auto');
         const data = await res.json();
-
         if (data.current_weather) {
           const temp = Math.round(data.current_weather.temperature);
-          const icon = getWeatherIcon(data.current_weather.weathercode);
+          const [icon, bgClass] = getWeatherIconAndClass(data.current_weather.weathercode);
+
           document.getElementById('w_icon').textContent = icon;
           document.getElementById('w_temp').textContent = temp + '°C';
+
+          document.body.classList.remove('weather-snow', 'weather-rain', 'weather-clear');
+          if (bgClass) document.body.classList.add(bgClass);
         }
       } catch (err) {
         console.error('Hava durumu alınamadı:', err);
       }
     }
-    fetchWeather(); // İlk Açılışta Al
-    setInterval(fetchWeather, 30 * 60 * 1000); // Her 30 dakikada bir yenile
+    fetchWeather();
+    setInterval(fetchWeather, 30 * 60 * 1000);
 
 
     // ── QR ──────────────────────────────────────────────────────────────────────
@@ -1797,6 +1913,17 @@
         // Verileri goster
         goster(filtrelenmisData);
 
+        // "BUGUN BIZ NOBETCIYIZ" KONTROLU
+        const isPolenOnDuty = filtrelenmisData.some(e => (e.ad || '').toUpperCase().includes('POLEN'));
+        if (isPolenOnDuty) {
+          document.body.classList.add('we-are-onduty');
+          document.getElementById('spill').innerHTML = '🚨 BUGÜN NÖBETÇİYİZ 🚨';
+          document.getElementById('spill').style.background = 'rgba(227, 6, 19, 0.4)';
+          document.getElementById('spill').style.color = '#fff';
+        } else {
+          document.body.classList.remove('we-are-onduty');
+        }
+
         const lu = new Date();
         const luStr = lu.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
         const luEl = document.getElementById('last-updated');
@@ -1905,7 +2032,7 @@
     // ══════════════════════════════════════════════════════════════════
 
     const DEFAULTS = {
-      kiosk: false, fontSize: 'normal',
+      fsAd: false,
       autoScroll: false, scrollSpeed: 'medium'
     };
 
@@ -1920,11 +2047,12 @@
 
     let settings = loadSettings();
     let scrollInterval = null;
+    let fsAdInterval = null;
+    let currentAdIndex = 0;
 
     // ── Ayarları UI'a yansıt ──
     function settingsToUI(s) {
-      document.getElementById('sKiosk').checked = s.kiosk;
-      document.getElementById('sFontSize').value = s.fontSize;
+      document.getElementById('sFsAd').checked = s.fsAd;
       document.getElementById('sScroll').checked = s.autoScroll;
       document.getElementById('sScrollSpeed').value = s.scrollSpeed;
     }
@@ -1932,8 +2060,7 @@
     // ── UI'dan ayarları oku ──
     function uiToSettings() {
       return {
-        kiosk: document.getElementById('sKiosk').checked,
-        fontSize: document.getElementById('sFontSize').value,
+        fsAd: document.getElementById('sFsAd').checked,
         autoScroll: document.getElementById('sScroll').checked,
         scrollSpeed: document.getElementById('sScrollSpeed').value,
       };
@@ -1941,12 +2068,40 @@
 
     // ── Ayarları uygula ──
     function applySettings(s) {
-      document.body.classList.toggle('kiosk', s.kiosk);
-      document.body.classList.remove('font-large', 'font-xlarge');
-      if (s.fontSize === 'large') document.body.classList.add('font-large');
-      if (s.fontSize === 'xlarge') document.body.classList.add('font-xlarge');
       if (scrollInterval) { clearInterval(scrollInterval); scrollInterval = null; }
       if (s.autoScroll) { startAutoScroll(s.scrollSpeed); }
+
+      // Tam Ekran Slayt Reklam Döngüsü
+      if (fsAdInterval) { clearInterval(fsAdInterval); fsAdInterval = null; }
+      document.getElementById('fsAdOverlay').classList.remove('active');
+      if (s.fsAd) { fsAdInterval = setInterval(playNextAd, 120000); } // Her 2 dakikada calisir
+    }
+
+    // -- Tam Ekran Reklam Oynatici --
+    function playNextAd() {
+      const camps = loadCampaigns();
+      if (!camps || camps.length === 0) return;
+
+      const overlay = document.getElementById('fsAdOverlay');
+      const cur = camps[currentAdIndex % camps.length];
+
+      document.getElementById('fsAdTitle').textContent = cur.title || '';
+      document.getElementById('fsAdDesc').textContent = cur.desc || '';
+      document.getElementById('fsAdImg').style.backgroundImage = cur.img ? `url(${cur.img})` : 'none';
+
+      if (cur.color && cur.color === 'gold') overlay.style.background = 'linear-gradient(135deg, #443 0%, #111 100%)';
+      else if (cur.color && cur.color === 'red') overlay.style.background = 'linear-gradient(135deg, #500 0%, #111 100%)';
+      else if (cur.color && cur.color === 'blue') overlay.style.background = 'linear-gradient(135deg, #004 0%, #111 100%)';
+      else if (cur.color && cur.color === 'green') overlay.style.background = 'linear-gradient(135deg, #031 0%, #111 100%)';
+      else overlay.style.background = '#0f111a';
+
+      overlay.classList.add('active');
+      const timeToRead = 15000; // 15 saniye ekranda kalsin
+
+      setTimeout(() => {
+        overlay.classList.remove('active');
+        currentAdIndex++;
+      }, timeToRead);
     }
 
     // ── Otomatik Kaydırma ──
