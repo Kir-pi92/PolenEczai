@@ -313,6 +313,25 @@
       background: rgba(255, 255, 255, 0.2);
     }
 
+    #settingsBtn {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: clamp(8px, .8vw, 12px);
+      padding: clamp(8px, .9vh, 12px) clamp(16px, 1.6vw, 24px);
+      font-size: var(--f-sm);
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all .3s ease;
+      letter-spacing: .5px;
+      margin-right: clamp(4px, .5vw, 8px);
+    }
+
+    #settingsBtn:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
     /* ── SCROLL ALANI ── */
     .scroll-area {
       flex: 1;
@@ -1361,7 +1380,8 @@
 
         <button id="ybtn" onclick="veriGetir(true)" title="Yenile">⟳</button>
         <button id="pbtn" onclick="window.print()" title="Yazdır">🖨️</button>
-        <button id="settingsBtn" title="Ayarlar" style="font-size:16px">⚙️</button>
+        <button id="settingsBtn" onclick="document.getElementById('settingsOverlay').classList.add('open')"
+          title="Ayarlar">⚙️</button>
         <div id="weather" title="Eskişehir Odunpazarı Hava Durumu">
           <span id="w_icon">🌤️</span> <span id="w_temp">--°C</span>
         </div>
