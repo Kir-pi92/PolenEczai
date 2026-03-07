@@ -1739,25 +1739,55 @@
         const POLEN_LAT = 39.7582;
         const POLEN_LON = 30.5144;
 
-        // Haversine formulü ile iki koordinat arası kuş uçuşu uzaklık hesaplama (km)
+        // Haversine formulü ile kus ucusu uzaklik (km)
         function calcDistance(lat1, lon1, lat2, lon2) {
-          if (!lat1 || !lon1 || !lat2 || !lon2) return 999; // Konumu olmayanlar en sona
+          if (!lat1 || !lon1 || !lat2 || !lon2) return 999;
           lat1 = parseFloat(lat1); lon1 = parseFloat(lon1);
           lat2 = parseFloat(lat2); lon2 = parseFloat(lon2);
-          const R = 6371; // Dunya yaricapi
+          const R = 6371;
           const dLat = (lat2 - lat1) * Math.PI / 180;
           const dLon = (lon2 - lon1) * Math.PI / 180;
           const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
             Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
             Math.sin(dLon / 2) * Math.sin(dLon / 2);
-          const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-          return R * c;
+          return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         }
 
-        // Uzakliklari hesapla ve sirala
+        // 1. Tum eczanelere gecici (kus ucusu * 1.35 yuruyus carpani) degerini ver
         filtrelenmisData.forEach(e => {
-          e.uzaklik = calcDistance(POLEN_LAT, POLEN_LON, e.lat, e.lon);
+          e.uzaklik = calcDistance(POLEN_LAT, POLEN_LON, e.lat, e.lon) * 1.35;
         });
+
+        // 2. OSRM API (Gercek Yurume Mesafesi) ile mesafeleri guncelleme deneyimi
+        const validCoords = filtrelenmisData.filter(e => e.lat && e.lon);
+        if (validCoords.length > 0) {
+          try {
+            // OSRM table servisine ilk sirada Polen Eczanesini koy, arkasina digerlerini ekle
+            const coordsStr = `${POLEN_LON},${POLEN_LAT};` + validCoords.map(e => `${e.lon},${e.lat}`).join(';');
+            const osrmUrl = `https://router.project-osrm.org/table/v1/foot/${coordsStr}?sources=0`;
+
+            // Timeout ile fetch
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 4000); // 4 saniye sinir
+            const res = await fetch(osrmUrl, { signal: controller.signal });
+            clearTimeout(timeoutId);
+
+            if (res.ok) {
+              const data = await res.json();
+              if (data.code === 'Ok' && data.distances && data.distances[0]) {
+                validCoords.forEach((e, i) => {
+                  const distMeters = data.distances[0][i + 1];
+                  if (distMeters && distMeters > 0) {
+                    e.uzaklik = distMeters / 1000; // Metreyi km'ye cevir
+                  }
+                });
+                console.log('OSRM: Gercek yurume rotalari alindi.');
+              }
+            }
+          } catch (err) {
+            console.warn('OSRM yurume rotasi alinamadi, tahmini mesafe kullaniliyor.', err);
+          }
+        }
 
         // En yakindan en uzaga siralama
         filtrelenmisData.sort((a, b) => a.uzaklik - b.uzaklik);
