@@ -368,10 +368,10 @@
       -webkit-backdrop-filter: blur(24px);
       border: 1px solid var(--glass-border);
       border-radius: var(--radius);
-      padding: clamp(18px, 2vh, 28px) clamp(18px, 2vw, 28px);
+      padding: clamp(12px, 1.5vh, 18px) clamp(14px, 1.5vw, 20px);
       display: grid;
       grid-template-columns: 1fr auto;
-      gap: 0 clamp(16px, 1.6vw, 24px);
+      gap: 0 clamp(10px, 1vw, 16px);
       position: relative;
       overflow: hidden;
       transition: all .3s cubic-bezier(0.2, 0.8, 0.2, 1);
@@ -410,15 +410,15 @@
     .ci {
       display: flex;
       flex-direction: column;
-      gap: clamp(8px, 1vh, 14px);
+      gap: clamp(6px, .8vh, 10px);
       min-width: 0;
       justify-content: center;
     }
 
     .cname {
-      font-size: clamp(18px, 1.9vw, 26px);
-      font-weight: 900;
-      line-height: 1.15;
+      font-size: clamp(16px, 1.7vw, 22px);
+      font-weight: 800;
+      line-height: 1.1;
       letter-spacing: -.5px;
       color: var(--text-main);
       text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
@@ -427,11 +427,11 @@
     }
 
     .caddr {
-      font-size: clamp(12px, 1.3vw, 16px);
+      font-size: clamp(11px, 1.1vw, 14px);
       color: var(--text-muted);
-      line-height: 1.6;
+      line-height: 1.4;
       display: flex;
-      gap: 8px;
+      gap: 6px;
       font-weight: 300;
     }
 
@@ -446,18 +446,18 @@
     .chips {
       display: flex;
       flex-wrap: wrap;
-      gap: clamp(6px, .7vw, 10px);
-      margin-top: auto;
+      gap: clamp(5px, .5vw, 8px);
+      margin-top: 4px;
     }
 
     .chip {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      font-size: clamp(11px, 1.1vw, 14px);
+      gap: 4px;
+      font-size: clamp(10px, 1vw, 13px);
       font-weight: 600;
-      padding: clamp(5px, .6vh, 8px) clamp(10px, 1vw, 16px);
-      border-radius: 8px;
+      padding: clamp(3px, .4vh, 6px) clamp(8px, .8vw, 12px);
+      border-radius: 6px;
     }
 
     .chip-t {
@@ -478,17 +478,17 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      gap: 4px;
       flex-shrink: 0
     }
 
     .qrbox {
       background: #fff;
-      border-radius: clamp(10px, 1vw, 16px);
-      padding: clamp(6px, .6vw, 10px);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, .6);
-      width: clamp(90px, 9.5vw, 130px);
-      height: clamp(90px, 9.5vw, 130px);
+      border-radius: clamp(8px, .8vw, 12px);
+      padding: clamp(4px, .4vw, 8px);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, .4);
+      width: clamp(75px, 8vw, 105px);
+      height: clamp(75px, 8vw, 105px);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -853,8 +853,8 @@
       }
 
       .qrbox {
-        width: 55px !important;
-        height: 55px !important;
+        width: 45px !important;
+        height: 45px !important;
         padding: 2px !important;
         box-shadow: none !important;
         border: 1px solid #ddd !important;
