@@ -1970,8 +1970,22 @@
           murl = `https://maps.google.com/?q=${encodeURIComponent(e.adres)}`;
         }
 
-        const saat = (e.nobet_baslangic && e.nobet_bitis)
-          ? e.nobet_baslangic.split(' ')[1] + ' – ' + e.nobet_bitis.split(' ')[1] : '';
+        let saat = '';
+        if (e.nobet_baslangic && e.nobet_bitis) {
+          try {
+            const b = e.nobet_baslangic.split(' ');
+            const bD = b[0].split('.').slice(0, 2).join('.');
+            const bT = b[1];
+
+            const e_ = e.nobet_bitis.split(' ');
+            const eD = e_[0].split('.').slice(0, 2).join('.');
+            const eT = e_[1];
+
+            saat = `${bD} ${bT} – ${eD} ${eT}`;
+          } catch (err) {
+            saat = e.nobet_baslangic.split(' ')[1] + ' – ' + e.nobet_bitis.split(' ')[1];
+          }
+        }
 
         const addr = (e.adres || '').substring(0, 130);
 
