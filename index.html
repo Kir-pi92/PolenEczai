@@ -1735,8 +1735,36 @@
         // Eger aktif filtreden eczane kalmadiysa, tum MERKEZ eczanelerini goster
         // (Gunduz saatlerinde nobet bitmis olabilir, en azindan en son verileri gosterelim)
         const filtrelenmisData = aktifData.length > 0 ? aktifData : merkezData;
+        // Polen Eczanesi Yaklasik Koordinati (Vişnelik, Atatürk Bulvarı)
+        const POLEN_LAT = 39.7582;
+        const POLEN_LON = 30.5144;
+
+        // Haversine formulü ile iki koordinat arası kuş uçuşu uzaklık hesaplama (km)
+        function calcDistance(lat1, lon1, lat2, lon2) {
+          if (!lat1 || !lon1 || !lat2 || !lon2) return 999; // Konumu olmayanlar en sona
+          lat1 = parseFloat(lat1); lon1 = parseFloat(lon1);
+          lat2 = parseFloat(lat2); lon2 = parseFloat(lon2);
+          const R = 6371; // Dunya yaricapi
+          const dLat = (lat2 - lat1) * Math.PI / 180;
+          const dLon = (lon2 - lon1) * Math.PI / 180;
+          const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+            Math.sin(dLon / 2) * Math.sin(dLon / 2);
+          const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+          return R * c;
+        }
+
+        // Uzakliklari hesapla ve sirala
+        filtrelenmisData.forEach(e => {
+          e.uzaklik = calcDistance(POLEN_LAT, POLEN_LON, e.lat, e.lon);
+        });
+
+        // En yakindan en uzaga siralama
+        filtrelenmisData.sort((a, b) => a.uzaklik - b.uzaklik);
+
         console.log('Merkez eczane:', merkezData.length, 'Aktif:', aktifData.length, 'Gosterilen:', filtrelenmisData.length);
 
+        // Verileri goster
         goster(filtrelenmisData);
 
         const lu = new Date();
@@ -1794,6 +1822,7 @@
         </div>
         <div class="caddr"><span class="caddr-ic">◈</span><span>${addr || 'Adres bilgisi yok'}</span></div>
         <div class="chips">
+          ${e.uzaklik && e.uzaklik < 999 ? `<span class="chip" style="background:rgba(52, 152, 219, 0.2);color:#5dade2;border:1px solid rgba(52, 152, 219, 0.4)">📍 ${(e.uzaklik).toFixed(1)} km</span>` : ''}
           ${e.telefon ? `<span class="chip chip-t">📞 ${e.telefon}</span>` : ''}
           ${saat ? `<span class="chip chip-s">🕐 ${saat}</span>` : ''}
         </div>
