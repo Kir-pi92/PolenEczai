@@ -1718,6 +1718,37 @@
       color: var(--red-br);
       box-shadow: inset 0 0 10px rgba(255, 71, 71, 0.05);
     }
+
+    /* ── WEATHER ADVICE BANNER ── */
+    .weather-advice {
+      background: rgba(255, 255, 255, 0.6);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-top: 1px solid var(--glass-border);
+      padding: 10px 24px;
+      text-align: center;
+      font-size: clamp(14px, 1.4vw, 16px);
+      font-weight: 600;
+      color: var(--text-main);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      flex-shrink: 0;
+      z-index: 10;
+      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.03);
+    }
+
+    [data-theme="classic"] .weather-advice {
+      background: rgba(15, 17, 26, 0.85);
+      color: #e2e8f0;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .wa-icon {
+      font-size: 1.3em;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+    }
   </style>
 </head>
 
@@ -1781,6 +1812,12 @@
           <div id="liveMap"></div>
         </div>
       </div>
+    </div>
+
+    <!-- Smart Weather Advice -->
+    <div class="weather-advice" id="weatherAdvice">
+      <span class="wa-icon" id="waIcon">🌟</span>
+      <span id="waText">Sağlıklı günler dileriz!</span>
     </div>
 
     <footer>
@@ -2386,17 +2423,52 @@
           const code = data.current_weather.weathercode;
 
           let icon = '☁️';
-          if (code === 0) icon = '☀️'; // Acik
-          else if (code === 1 || code === 2) icon = '🌤️'; // Parcali bulutlu
-          else if (code === 3) icon = '🌥️'; // Cok bulutlu
-          else if ([45, 48].includes(code)) icon = '🌫️'; // Sis
-          else if ([51, 53, 55, 56, 57].includes(code)) icon = '🌦️'; // Ciseleme
-          else if ([61, 63, 65, 66, 67, 80, 81, 82].includes(code)) icon = '🌧️'; // Yagmur
-          else if ([71, 73, 75, 77, 85, 86].includes(code)) icon = '❄️'; // Kar
-          else if ([95, 96, 99].includes(code)) icon = '⛈️'; // Firtina
+          let adviceText = 'Sağlıklı günler dileriz!';
+          let adviceIcon = '🌟';
+
+          if (code === 0) {
+            icon = '☀️'; adviceIcon = '🧴'; adviceText = 'Güneşli bir gün! Dışarı çıkarken güneş kreminizi sürmeyi unutmayın.';
+          }
+          else if (code === 1 || code === 2) {
+            icon = '🌤️'; adviceIcon = '⛅'; adviceText = 'Hava parçalı bulutlu, keyifli bir gün dileriz. Temiz havanın tadını çıkarın.';
+          }
+          else if (code === 3) {
+            icon = '🌥️'; adviceIcon = '☁️'; adviceText = 'Çok bulutlu bir gün. Kapalı hava modunuzu düşürmesin, güzel bir bitki çayı iyi gelebilir.';
+          }
+          else if ([45, 48].includes(code)) {
+            icon = '🌫️'; adviceIcon = '🌫️'; adviceText = 'Dışarıda sis var. Lütfen trafikte ve yolda dikkatli olunuz.';
+          }
+          else if ([51, 53, 55, 56, 57].includes(code)) {
+            icon = '🌦️'; adviceIcon = '🌂'; adviceText = 'Çiseleyen yağmur dışarıyı ferahlatıyor. Hafif yağmurluğunuzu yanınıza almanızda fayda var.';
+          }
+          else if ([61, 63, 65, 66, 67, 80, 81, 82].includes(code)) {
+            icon = '🌧️'; adviceIcon = '☔'; adviceText = 'Yağmurlu bir gün. Şemsiyenizi almayı unutmayın ve üşütmemeye dikkat edin.';
+          }
+          else if ([71, 73, 75, 77, 85, 86].includes(code)) {
+            icon = '❄️'; adviceIcon = '🧣'; adviceText = 'Kar yağışı var! Sıkı giyinin, atkınızı takın ve kaygan zeminlere dikkat edin.';
+          }
+          else if ([95, 96, 99].includes(code)) {
+            icon = '⛈️'; adviceIcon = '⚡'; adviceText = 'Fırtına bekleniyor. Zorunlu olmadıkça dışarı çıkmamanız tavsiye olunur, güvende kalın.';
+          }
+
+          // Akıllı Sıcaklık Tavsiyeleri
+          if (temp < 5 && ![71, 73, 75, 77, 85, 86].includes(code)) {
+            adviceText += ' Havalar çok soğuk, bağışıklığınızı güçlü tutmayı unutmayın!';
+          } else if (temp > 30) {
+            adviceText += ' Sıcak havada bol su içmeyi ihmal etmeyin.';
+          } else if (temp >= 20 && temp <= 27 && [0, 1, 2].includes(code)) {
+            adviceText += ' Tam yürüyüş veya hafif egzersiz havası!';
+          }
 
           document.getElementById('w_temp').textContent = temp + '°C';
           document.getElementById('w_icon').textContent = icon;
+
+          const wa = document.getElementById('weatherAdvice');
+          if (wa) {
+            document.getElementById('waIcon').textContent = adviceIcon;
+            document.getElementById('waText').textContent = adviceText;
+            wa.style.display = 'flex';
+          }
         }
       } catch (e) {
         console.error('Hava durumu alinamadi:', e);
